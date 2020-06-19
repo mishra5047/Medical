@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.R;
+import com.example.nirogo.User.showUserAppointments;
 
 public class UserProfile extends Activity {
 
@@ -33,7 +34,8 @@ public class UserProfile extends Activity {
         pastAppointments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Past Appointments",Toast.LENGTH_SHORT).show();
+               Intent i= new Intent(UserProfile.this, showUserAppointments.class);
+               startActivity(i);
             }
         });
 

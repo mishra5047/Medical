@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AdminActivity"></activity>
+        <activity android:name=".User.showUserAppointments"></activity>
+        <activity android:name=".AdminActivity" />
         <activity android:name=".HomeScreen.Navdrawer" />
         <activity android:name=".HomeScreen.MessageActivity" />
         <activity android:name=".Activities.AppointmentOption" />

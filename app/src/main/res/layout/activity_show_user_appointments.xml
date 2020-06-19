@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".User.showUserAppointments">
+
+    <RelativeLayout
+        android:id="@+id/lay_1"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/blue_bg"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="30dp"
+            android:layout_centerVertical="true"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YOUR APPOINTMENTS"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/neue_regular"
+            android:textSize="35sp"
+            android:textColor="@color/White"
+            />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lay_1">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_appointmentlist"
+        android:background="@color/White">
+    </androidx.recyclerview.widget.RecyclerView>
+    </ScrollView>
+</RelativeLayout>
+

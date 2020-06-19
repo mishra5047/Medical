@@ -25,6 +25,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.nirogo.Activities.AmbulanceActivity;
 import com.example.nirogo.Activities.AppointmentsActivity;
 import com.example.nirogo.Activities.CartActivity;
+import com.example.nirogo.Activities.LoginActivity;
 import com.example.nirogo.Activities.OptionActivity;
 import com.example.nirogo.Activities.ProfileActivity;
 import com.example.nirogo.Adapters.Feed.FeedAdapter;
@@ -201,6 +202,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                         startActivity(intent);
                                         return true;
             case R.id.nav_item_four : if(getIntent().getStringExtra("type").equals("Doctor")) {
+                                        Log.i("TYPE","DOctor");
                                         intent = new Intent(HomeActivity.this, ProfileActivity.class);
                                         intent.putExtra("type", getIntent().getStringExtra("type"));
                                         startActivity(intent);

@@ -11,6 +11,7 @@ public class MyAppointments {
         this.drName = drName;
         Date = date;
         Time = time;
+
     }
 
     public String getDrName() {
