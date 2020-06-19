@@ -12,6 +12,7 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
@@ -96,6 +97,7 @@ public class PostUploadActivity extends Activity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("SUBMIT CLICKED", "clicked");
             if((postDetails.getText().toString()).isEmpty())
             {
                 postDetails.setError("Can't be empty");

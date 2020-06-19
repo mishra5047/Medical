@@ -113,6 +113,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                list.clear();
                 settingfeedadapter();
             }
         });
