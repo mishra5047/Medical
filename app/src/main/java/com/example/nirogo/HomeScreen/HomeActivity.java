@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,8 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ReportFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.nirogo.Activities.AmbulanceActivity;
@@ -55,6 +58,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     ProgressBar progressBar;
     RecyclerView recyclerview;
+    SwipeRefreshLayout swipeRefreshLayout;
     //db
     DatabaseReference databaseReference;
     StorageReference storageReference;
@@ -97,9 +101,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(false);
         toggle.syncState();
-
+        //set up email in nav drawer
+        View headerView= navigationView.getHeaderView(0);
+        TextView userEmailHeader= (TextView)headerView.findViewById(R.id.nav_header_email);
+        userEmailHeader.setText(mAuth.getCurrentUser().getEmail());
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        //seting up refresh layout
+        swipeRefreshLayout=(SwipeRefreshLayout) findViewById(R.id.RefreshHome);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                list.clear();
+                settingfeedadapter();
+            }
+        });
+
+        settingfeedadapter();
+
 
         ImageView chatbtn = findViewById(R.id.chatBtn);
         chatbtn.setOnClickListener(new View.OnClickListener() {
@@ -121,29 +141,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        recyclerview = findViewById(R.id.recyclerView);
 
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-
-        databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    progressBar.setVisibility(View.INVISIBLE);
-                    PostUploadInfo postUploadInfo = postSnapshot.getValue(PostUploadInfo.class);
-                    list.add(postUploadInfo);
-                }
-                postAdapter = new FeedAdapter(list, getApplicationContext());
-                recyclerview.setAdapter(postAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         final BubbleNavigationConstraintView bubblenavigation = findViewById(R.id.bottomNav);
         bubblenavigation.setCurrentActiveItem(0);
@@ -217,6 +215,35 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         }
         return true;
+    }
+
+    private void settingfeedadapter(){
+
+        swipeRefreshLayout.setRefreshing(true);
+        recyclerview = findViewById(R.id.recyclerView);
+
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+
+        databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    PostUploadInfo postUploadInfo = postSnapshot.getValue(PostUploadInfo.class);
+                    list.add(postUploadInfo);
+                }
+                postAdapter = new FeedAdapter(list, getApplicationContext());
+                recyclerview.setAdapter(postAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        swipeRefreshLayout.setRefreshing(false);
     }
 
 
