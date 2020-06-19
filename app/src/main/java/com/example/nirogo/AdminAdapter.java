@@ -3,6 +3,7 @@ package com.example.nirogo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +49,11 @@ public class AdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         AdminShow itemAdapter = list.get(position);
 
         ((ViewHolder) holder).nameUser.setText(itemAdapter.getDocName());
-        ((ViewHolder) holder).nameDoc.setText(itemAdapter.getDocName());
+        ((ViewHolder) holder).nameDoc.setText(itemAdapter.getUserName());
         ((ViewHolder) holder).date.setText(itemAdapter.getDateApt());
         ((ViewHolder) holder).time.setText(itemAdapter.getTimeApt());
-
+        ((ViewHolder) holder).noDoc.setText(itemAdapter.getPhoneDoc());
+        ((ViewHolder) holder).noUser.setText(itemAdapter.getPhoneUser());
     }
 
     @Override
@@ -73,6 +75,29 @@ public class AdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
             noDoc = itemView.findViewById(R.id.noDoc);
+            noUser = itemView.findViewById(R.id.noUser);
+
+            doc = itemView.findViewById(R.id.callDoc);
+            doc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String num = noDoc.getText().toString();
+                    String no = num.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3");
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + no));
+                    v.getContext().startActivity(intent);
+                }
+            });
+            user = itemView.findViewById(R.id.callUser);
+            user.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + noUser.getText()));
+                    v.getContext().startActivity(intent);
+                }
+            });
 
         }
     }

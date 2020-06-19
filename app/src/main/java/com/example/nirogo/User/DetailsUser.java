@@ -189,7 +189,7 @@ public class DetailsUser extends Activity {
 
                                     String id = firebaseAuth.getCurrentUser().getUid();
 
-                                    UserUploadInfo userUploadInfo = new UserUploadInfo(id, name, age, city, down, "9599656583");
+                                    UserUploadInfo userUploadInfo = new UserUploadInfo(id, name, age, city, down, "9582981430");
 
                                     // Getting image upload ID.
                                     // Adding image upload id s child element into databaseReference.

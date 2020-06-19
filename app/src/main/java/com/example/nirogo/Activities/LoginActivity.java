@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nirogo.AdminActivity;
 import com.example.nirogo.Doctor.DoctorActivity;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.R;
@@ -115,6 +116,11 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 String EmailText= email.getText().toString().trim();
                 String PassWordText= password.getText().toString().trim();
+
+                if (EmailText.equals("admin") && PassWordText.equals("admin")){
+                    startActivity(new Intent(getApplicationContext(), AdminActivity.class));
+                }
+
                 if(TextUtils.isEmpty(EmailText)){
                     Toast.makeText(LoginActivity.this,"Enter valid email",Toast.LENGTH_SHORT);
                     return;
