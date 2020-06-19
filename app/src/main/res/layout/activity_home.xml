@@ -92,6 +92,11 @@
          style="@style/AppTheme"
          android:layout_height="25dp"
          android:layout_centerHorizontal="true"/>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/RefreshHome">
+
     <ScrollView
         android:layout_below="@id/progressBar"
         android:layout_width="match_parent"
@@ -104,6 +109,8 @@
         android:layout_height="wrap_content"
         />
     </ScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.gauravk.bubblenavigation.BubbleNavigationConstraintView
             android:id="@+id/bottomNav"
