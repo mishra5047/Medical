@@ -2,20 +2,30 @@ package com.example.nirogo.Post;
 
 public class PostUploadInfo {
 
-String docImageurl, docName, docSpec, time, desc, posturl;
+String docImageurl, docName, docSpec, time, desc, posturl, numberDoc;
 int likes;
+
 
     public PostUploadInfo() {
     }
 
-    public PostUploadInfo(String docimage, String docName, String docSpec, String time, String desc, String url, int likes) {
+    public PostUploadInfo(String docimage, String number, String docName, String docSpec, String time, String desc, String url, int likes) {
         this.docImageurl = docimage;
+        this.numberDoc = number;
         this.docName = docName;
         this.docSpec = docSpec;
         this.time = time;
         this.desc = desc;
         this.posturl = url;
         this.likes = likes;
+    }
+
+    public String getNumberDoc() {
+        return numberDoc;
+    }
+
+    public void setNumberDoc(String numberDoc) {
+        this.numberDoc = numberDoc;
     }
 
     public String getDesc() {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/lay_1"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/blue_bg"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="30dp"
+            android:layout_centerVertical="true"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All Appointments"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/neue_regular"
+            android:textSize="35sp"
+            android:textColor="@color/White"
+            />
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:progress="25"
+        style="@style/AppTheme"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/lay_1"/>
+
+    <ScrollView
+        android:layout_below="@id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="70dp"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </ScrollView>
+
+</RelativeLayout>

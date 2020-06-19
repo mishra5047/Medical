@@ -51,6 +51,15 @@
             android:layout_below="@id/positionUser"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/imageUser" />
+
+        <TextView
+            android:id="@+id/noDoc"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/positionUser"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/timePost" />
+
     </RelativeLayout>
 
     <TextView

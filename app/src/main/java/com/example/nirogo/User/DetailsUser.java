@@ -21,6 +21,7 @@ import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -51,13 +52,14 @@ public class DetailsUser extends Activity {
     String name, age, city;
     EditText nameIn, ageIn, cityIn;
     ImageView cameraBut, cameraDisp;
-
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_user);
 
+        firebaseAuth = FirebaseAuth.getInstance();
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -185,7 +187,9 @@ public class DetailsUser extends Activity {
                                     Toast.makeText(getApplicationContext(), down, Toast.LENGTH_LONG).show();
                                     String uniqueId = UUID.randomUUID().toString();
 
-                                    UserUploadInfo userUploadInfo = new UserUploadInfo(name, age, city, down);
+                                    String id = firebaseAuth.getCurrentUser().getUid();
+
+                                    UserUploadInfo userUploadInfo = new UserUploadInfo(id, name, age, city, down, "9599656583");
 
                                     // Getting image upload ID.
                                     // Adding image upload id s child element into databaseReference.

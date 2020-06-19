@@ -115,8 +115,9 @@ public class PostUploadActivity extends Activity {
                             {
                                 String name = docUploadInfo.getName();
                                 String spec = docUploadInfo.getSpeciality();
-                                String docimage = docUploadInfo.imageURL;
-                                UploadImageFileToFirebaseStorage(name, spec, docimage);
+                                String docimage = docUploadInfo.getImageURL();
+                                String no = docUploadInfo.getPhone();
+                                UploadImageFileToFirebaseStorage(name, spec, docimage, no);
                             }
                            }
                     }
@@ -130,7 +131,6 @@ public class PostUploadActivity extends Activity {
             }
         });
     }
-
 
 
     @Override
@@ -190,7 +190,7 @@ public class PostUploadActivity extends Activity {
     }
 
     //uploading Image
-    public void UploadImageFileToFirebaseStorage(final String name, final String spec, final String profile) {
+    public void UploadImageFileToFirebaseStorage(final String name, final String spec, final String profile, final String number) {
 
         // Checking whether FilePathUri Is empty or not.
         if (FilePathUri != null) {
@@ -220,13 +220,13 @@ public class PostUploadActivity extends Activity {
                         @Override
                         public void onSuccess(Uri uri) {
                             String down = uri.toString();
-                            Toast.makeText(getApplicationContext(), down, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Post Uploaded", Toast.LENGTH_LONG).show();
 
                             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
                             String currentDateandTime = sdf.format(new Date());
 
                             String id = firebaseAuth.getCurrentUser().getUid();
-                            PostUploadInfo docUploadInfo = new PostUploadInfo(profile, name, spec, currentDateandTime, det, down, 4);
+                            PostUploadInfo docUploadInfo = new PostUploadInfo(profile, number, name, spec, currentDateandTime, det, down, 4);
 
                             // Getting image upload ID.
                             // Adding image upload id s child element into databaseReference.

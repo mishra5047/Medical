@@ -3,6 +3,7 @@ package com.example.nirogo.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -15,10 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nirogo.AdminShow;
 import com.example.nirogo.Doctor.DocUploadInfo;
 import com.example.nirogo.HomeScreen.MessageActivity;
 import com.example.nirogo.HomeScreen.MessagePreview;
+import com.example.nirogo.MyAppointments;
 import com.example.nirogo.R;
+import com.example.nirogo.User.UserUploadInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,14 +30,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.UUID;
 
 public class AppointmentOption extends AppCompatActivity {
 
     LinearLayout offline, online;
     final int UPI_PAYMENT = 0;
     String mode ;
-    String docName ;
+    String docName , docPhone;
 
     DatabaseReference databaseReference, databaseReference2 ;
     String Database_Path = "UserAppointment/";
@@ -42,10 +50,17 @@ public class AppointmentOption extends AppCompatActivity {
     DatabaseReference databaseReference_fetch;
     FirebaseAuth firebaseAuth;
 
+    ProgressDialog progressDialog ;
+
+    // DB for admin and userAppoint
+    DatabaseReference dbrefUser, dbrefAdmin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_option);
+
+        progressDialog  = new ProgressDialog(this);
 
         offline = findViewById(R.id.offline);
         online = findViewById(R.id.online);
@@ -57,21 +72,24 @@ public class AppointmentOption extends AppCompatActivity {
 
         TextView name = findViewById(R.id.drname);
          docName = getIntent().getStringExtra("docname");
+         docPhone = getIntent().getStringExtra("phone");
         name.setText(docName);
 
         offline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
+             //   payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
                 mode = "offline";
+                addToDB();
             }
         });
 
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
+            //    payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
                 mode = "online";
+                addToDB();
             }
         });
 
@@ -181,7 +199,7 @@ public class AppointmentOption extends AppCompatActivity {
                     startActivity(intent);
                 }
 
-                addToDB();
+                //addToDB();
 
                 Log.e("UPI", "payment successfull: "+approvalRefNo);
             }
@@ -208,18 +226,44 @@ public class AppointmentOption extends AppCompatActivity {
         databaseReference_fetch = FirebaseDatabase.getInstance().getReference(Database_Path_Fetch);
         final String id = firebaseAuth.getCurrentUser().getUid();
 
+        progressDialog.setTitle("Saving To DB...");
+
+        // Showing progressDialog.
+        progressDialog.show();
+
         databaseReference_fetch.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    DocUploadInfo docUploadInfo = postSnapshot.getValue(DocUploadInfo.class);
-                    String idCheck = docUploadInfo.getId();
+                    UserUploadInfo userData = postSnapshot.getValue(UserUploadInfo.class);
+                    String idCheck = userData.getId();
+
+                    String path_admin = "Admin/";
+                    String path_user = "UserApt/" + id +"/";
+                    dbrefUser = FirebaseDatabase.getInstance().getReference(path_user);
+                    dbrefAdmin = FirebaseDatabase.getInstance().getReference(path_admin);
 
                     if (idCheck.equalsIgnoreCase(id))
                     {
-                        String name = docUploadInfo.getName();
-                        String spec = docUploadInfo.getSpeciality();
-                        String docimage = docUploadInfo.imageURL;
+                        String name = userData.getName();
+                        String phone = userData.getNumber();
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                        String time = sdf.format(new Date());
+
+                        SimpleDateFormat sdf_1 = new SimpleDateFormat("dd-MM-YYYY", Locale.getDefault());
+                        String date = sdf_1.format(new Date());
+
+                        AdminShow adminShow = new AdminShow(docName, docPhone, name, phone, date, time);
+
+                        dbrefAdmin.child(UUID.randomUUID().toString()).setValue(adminShow);
+
+                        //user appointment
+                        MyAppointments userAppoint = new MyAppointments(docName, date, time);
+
+                        dbrefUser.child(UUID.randomUUID().toString()).setValue(userAppoint);
+
+                        progressDialog.dismiss();
                     }
                 }
             }
@@ -230,6 +274,15 @@ public class AppointmentOption extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void uploadToUserDB() {
+
+
+    }
+
+    private void uploadToAdminDB() {
 
     }
 

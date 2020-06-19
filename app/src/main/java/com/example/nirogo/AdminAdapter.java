@@ -62,7 +62,8 @@ public class AdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameUser, nameDoc, date, time;
-
+        TextView noDoc, noUser;
+        ImageView doc, user;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -71,6 +72,8 @@ public class AdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             nameUser = itemView.findViewById(R.id.nameUser);
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
+            noDoc = itemView.findViewById(R.id.noDoc);
+
         }
     }
 }

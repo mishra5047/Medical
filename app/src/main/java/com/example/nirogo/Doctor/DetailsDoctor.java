@@ -95,12 +95,11 @@ public class DetailsDoctor extends Activity {
         specIn = findViewById(R.id.specDoc);
         cityIn = findViewById(R.id.cityDoc);
 
-        cameraBut = findViewById(R.id.imageButton);
         cameraDisp = findViewById(R.id.imageDisp);
 
         progressDialog  = new ProgressDialog(this);
 
-        cameraBut.setOnClickListener(new View.OnClickListener() {
+        cameraDisp.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 //            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

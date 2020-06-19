@@ -53,6 +53,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ((ViewHolder) holder).descUser.setText(itemAdapter.getDocSpec());
         ((ViewHolder) holder).descPost.setText(itemAdapter.getDesc());
         ((ViewHolder) holder).timePost.setText(itemAdapter.getTime());
+        ((ViewHolder) holder).phone.setText(itemAdapter.getNumberDoc());
         Picasso.get().load(itemAdapter.getUrl()).into(((ViewHolder) holder).imgPost);
 
         // ((ViewHolder) holder).txtLike.setText(itemAdapter.getLikes());
@@ -66,15 +67,16 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameUser, descUser, descPost, timePost;
         ImageView docImage, imgPost;
+        TextView phone;
 
         LinearLayout likelay, appoint;
         ImageView btnLike;
         TextView txtLike, numLikes;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
 
+            phone = itemView.findViewById(R.id.noDoc);
             nameUser = itemView.findViewById(R.id.nameUser);
             descUser = itemView.findViewById(R.id.positionUser);
             descPost = itemView.findViewById(R.id.descPost);
@@ -93,6 +95,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), AppointmentOption.class);
                     intent.putExtra("docname", nameUser.getText());
+                    intent.putExtra("phone", phone.getText());
                     v.getContext().startActivity(intent);
                 }
             });
