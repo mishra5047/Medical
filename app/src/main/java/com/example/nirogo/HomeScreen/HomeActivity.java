@@ -217,6 +217,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
     private void settingfeedadapter(){
 
         swipeRefreshLayout.setRefreshing(true);

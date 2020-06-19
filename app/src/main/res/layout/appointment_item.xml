@@ -49,6 +49,25 @@
             />
 
         <TextView
+            android:id="@+id/DocId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/imageText"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/Phone_Doc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/imageText"
+            android:visibility="gone"
+            />
+
+        <TextView
             android:id="@+id/cityText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

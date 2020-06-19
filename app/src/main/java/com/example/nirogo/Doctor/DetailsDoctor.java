@@ -55,8 +55,8 @@ public class DetailsDoctor extends Activity {
     int Image_Request_Code = 7;
     ProgressDialog progressDialog ;
     private static final int CAMERA_REQUEST = 1888;
-    String name, age, speciality, city;
-    EditText nameIn, ageIn, specIn, cityIn;
+    String name, age, speciality, city,phone;
+    EditText nameIn, ageIn, specIn, cityIn, PhoneIn;
     ImageView cameraBut, cameraDisp;
 
     FirebaseAuth mAuth;
@@ -94,6 +94,7 @@ public class DetailsDoctor extends Activity {
         ageIn = findViewById(R.id.ageDoc);
         specIn = findViewById(R.id.specDoc);
         cityIn = findViewById(R.id.cityDoc);
+        PhoneIn = findViewById(R.id.PhoneDoc);
 
         cameraDisp = findViewById(R.id.imageDisp);
 
@@ -120,6 +121,7 @@ public class DetailsDoctor extends Activity {
                 age = ageIn.getText().toString();
                 speciality = specIn.getText().toString();
                 city = cityIn.getText().toString();
+                phone= PhoneIn.getText().toString();
 
                 if (name.isEmpty()){
                     nameIn.setError("Can't be empty");
@@ -140,6 +142,12 @@ public class DetailsDoctor extends Activity {
                     cityIn.setError("Can't be empty");
                     return;
                 }
+
+                if (phone.isEmpty()){
+                    PhoneIn.setError("Can't be empty");
+                    return;
+                }
+
 
                 else {
                     UploadImageFileToFirebaseStorage();
@@ -211,6 +219,7 @@ public class DetailsDoctor extends Activity {
                             age = ageIn.getText().toString();
                             speciality = specIn.getText().toString();
                             city = cityIn.getText().toString();
+                            phone=PhoneIn.getText().toString();
 
                             // Hiding the progressDialog after done uploading.
                             progressDialog.dismiss();
@@ -222,10 +231,10 @@ public class DetailsDoctor extends Activity {
                                 public void onSuccess(Uri uri) {
                                 String down = uri.toString();
 
-                                    DocUploadInfo docUploadInfo = new DocUploadInfo(id, "9599656583", name,speciality, age, city, down);
+                                    DocUploadInfo docUploadInfo = new DocUploadInfo(id, phone, name,speciality, age, city, down);
 
                                     //nearby
-                                    UploadInfo info = new UploadInfo(down, name, speciality, city);
+                                    UploadInfo info = new UploadInfo(down, name, speciality, city,id,phone);
 
                                     // Getting image upload ID.
                                     // Adding image upload id s child element into databaseReference.

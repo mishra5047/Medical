@@ -119,7 +119,8 @@ public class PostUploadActivity extends Activity {
                                 String spec = docUploadInfo.getSpeciality();
                                 String docimage = docUploadInfo.getImageURL();
                                 String no = docUploadInfo.getPhone();
-                                UploadImageFileToFirebaseStorage(name, spec, docimage, no);
+                                String idDoc= docUploadInfo.getId();
+                                UploadImageFileToFirebaseStorage(name, spec, docimage, no,id);
                             }
                            }
                     }
@@ -192,7 +193,7 @@ public class PostUploadActivity extends Activity {
     }
 
     //uploading Image
-    public void UploadImageFileToFirebaseStorage(final String name, final String spec, final String profile, final String number) {
+    public void UploadImageFileToFirebaseStorage(final String name, final String spec, final String profile, final String number, final String Docid) {
 
         // Checking whether FilePathUri Is empty or not.
         if (FilePathUri != null) {
@@ -228,7 +229,7 @@ public class PostUploadActivity extends Activity {
                             String currentDateandTime = sdf.format(new Date());
 
                             String id = firebaseAuth.getCurrentUser().getUid();
-                            PostUploadInfo docUploadInfo = new PostUploadInfo(profile, number, name, spec, currentDateandTime, det, down, 4);
+                            PostUploadInfo docUploadInfo = new PostUploadInfo(profile, number, name, spec, currentDateandTime, det, down, 4,Docid);
 
                             // Getting image upload ID.
                             // Adding image upload id s child element into databaseReference.
