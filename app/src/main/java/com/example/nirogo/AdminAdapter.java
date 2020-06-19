@@ -83,12 +83,13 @@ public class AdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 public void onClick(View v) {
 
                     String num = noDoc.getText().toString();
-                    String no = num.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3");
+             //       String no = num.replaceFirst("\\d{3}\\d{3}\\d", "$1$2$3");
                     Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:" + no));
+                    intent.setData(Uri.parse("tel:" + num));
                     v.getContext().startActivity(intent);
                 }
             });
+
             user = itemView.findViewById(R.id.callUser);
             user.setOnClickListener(new View.OnClickListener() {
                 @Override
