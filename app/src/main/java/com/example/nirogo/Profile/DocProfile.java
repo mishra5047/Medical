@@ -47,7 +47,7 @@ public class DocProfile extends Activity {
         speciality = findViewById(R.id.speciaility);
         phoneno = findViewById(R.id.phoneProfile);
         city = findViewById(R.id.cityProfile);
-        profilePic = findViewById(R.id.ProfilePic);
+        profilePic = findViewById(R.id.ProfilePicDoc);
 
         auth = FirebaseAuth.getInstance();
         doctor_fetch = FirebaseDatabase.getInstance().getReference(Database_Path_Fetch);

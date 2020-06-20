@@ -1,5 +1,6 @@
 package com.example.nirogo.HomeScreen;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -43,6 +45,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,10 +86,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Log.i("Screen Return Value", "Small");
         } else
             setContentView(R.layout.activity_home);
+
         mAuth= FirebaseAuth.getInstance();
-
         progressBar = findViewById(R.id.progressBar);
-
         storageReference = FirebaseStorage.getInstance().getReference();
 
         //setting up navigation drawer
@@ -100,13 +102,44 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(false);
         toggle.syncState();
+
         //set up email in nav drawer
         View headerView= navigationView.getHeaderView(0);
         TextView userEmailHeader= (TextView)headerView.findViewById(R.id.nav_header_email);
+        final ImageView propic=(ImageView)headerView.findViewById(R.id.image_nav_header);
+        final TextView DocnameNav=(TextView) headerView.findViewById(R.id.nav_header_name);
+
         if (mAuth.getCurrentUser()!=null)
         userEmailHeader.setText(mAuth.getCurrentUser().getEmail());
-
         navigationView.setNavigationItemSelectedListener(this);
+
+        //setting up user name and profile pic in nav drawer
+        DatabaseReference dbref2= FirebaseDatabase.getInstance().getReference("Doctor/"+mAuth.getCurrentUser().getUid()+"/imageURL/");
+        dbref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String imageURL= dataSnapshot.getValue(String.class);
+                Picasso.get().load(imageURL).into(propic);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getApplicationContext(),"unable to download userImage",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        DatabaseReference dbref3= FirebaseDatabase.getInstance().getReference("Doctor/"+mAuth.getCurrentUser().getUid()+"/name/");
+        dbref3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String name= dataSnapshot.getValue(String.class);
+                DocnameNav.setText(name);
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(),"unable to set userName",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //seting up refresh layout
         swipeRefreshLayout=(SwipeRefreshLayout) findViewById(R.id.RefreshHome);
@@ -212,7 +245,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                             intent.putExtra("type", getIntent().getStringExtra("type"));
                                             startActivity(intent);
                                             return true; }
-            case R.id.nav_item_five :   signOut(); return true;
+            case R.id.nav_item_five :   new AlertDialog.Builder(this)
+                                        .setIcon(R.drawable.alert)
+                                        .setTitle("Are you sure")
+                                        .setMessage("do you want to Sign Out?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                signOut(); return ;
+                                            }
+                                        }).setNegativeButton("No",null)
+                                        .show();
 
         }
         return true;
