@@ -5,7 +5,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,6 +57,7 @@ public class MyAppointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameDoc, date, time;
+        ImageView messageicon;
 
 
         public ViewHolder(View itemView) {
@@ -63,6 +66,15 @@ public class MyAppointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             nameDoc = itemView.findViewById(R.id.nameDoc);
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
+
+            messageicon=itemView.findViewById(R.id.messageIcon);
+
+            messageicon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(),"Chat Coming Soon",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

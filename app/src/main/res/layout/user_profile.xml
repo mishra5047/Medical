@@ -94,7 +94,7 @@
                     android:textColor="@color/Black"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:text="PAST APPOINTMENTS"
+                    android:text="APPOINTMENTS"
                     android:textSize="25dp"
                     android:layout_marginLeft="10dp"
                     android:gravity="center"

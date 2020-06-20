@@ -58,7 +58,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView docName, docSpec, docCity;
+        TextView docName, docSpec, docCity,DocId,DocPhone;
         ImageView image, appointmentIcon;
 
         public ViewHolder(View itemView) {
@@ -69,6 +69,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             docSpec = itemView.findViewById(R.id.specialityText);
             image = itemView.findViewById(R.id.imageText);
             appointmentIcon = itemView.findViewById(R.id.appointmentIcon);
+            DocId = itemView.findViewById(R.id.DocId);
+            DocPhone = itemView.findViewById(R.id.Phone_Doc);
 
             final Context context = itemView.getContext();
 
@@ -87,6 +89,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), AppointmentOption.class);
                     intent.putExtra("docname", docName.getText());
+                    intent.putExtra("phone", DocPhone.getText());
+                    intent.putExtra("DocId",DocId.getText());
                     v.getContext().startActivity(intent);
 
                 }
