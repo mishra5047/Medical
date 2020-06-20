@@ -228,15 +228,16 @@ public class PostUploadActivity extends Activity {
                             String currentDateandTime = sdf.format(new Date());
 
                             String id = firebaseAuth.getCurrentUser().getUid();
-                            PostUploadInfo docUploadInfo = new PostUploadInfo(profile, number, name, spec, currentDateandTime, det, down, "4",Docid);
+                            String postDBid= UUID.randomUUID().toString();
+                            PostUploadInfo docUploadInfo = new PostUploadInfo(profile, number, name, spec, currentDateandTime, det, down, "4",Docid,postDBid);
 
                             // Getting image upload ID.
                             // Adding image upload id s child element into databaseReference.
-                            databaseReference.child(UUID.randomUUID().toString()).setValue(docUploadInfo);
+                            databaseReference.child(postDBid).setValue(docUploadInfo);
 
                             Intent intent = new Intent(PostUploadActivity.this, HomeActivity.class);
                             startActivity(intent);
-                                }
+                        }
                     });
 
                 }

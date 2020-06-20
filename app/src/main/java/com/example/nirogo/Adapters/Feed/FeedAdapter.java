@@ -19,6 +19,8 @@ import com.example.nirogo.Profile.DoctorProfileViewOnly;
 import com.example.nirogo.Activities.AppointmentOption;
 import com.example.nirogo.Post.PostUploadInfo;
 import com.example.nirogo.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -56,6 +58,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ((ViewHolder) holder).timePost.setText(itemAdapter.getTime());
         ((ViewHolder) holder).phone.setText(itemAdapter.getNumberDoc());
         ((ViewHolder) holder).DocId.setText(itemAdapter.getDocId());
+        ((ViewHolder) holder).PostDBid.setText(itemAdapter.getPostDBid());
 
         Picasso.get().load(itemAdapter.getUrl()).into(((ViewHolder) holder).imgPost);
         ((ViewHolder) holder).url.setText(itemAdapter.getUrl());
@@ -69,7 +72,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameUser, descUser, descPost, timePost,DocId;
+        TextView nameUser, descUser, descPost, timePost,DocId, PostDBid;
         ImageView docImage, imgPost;
         TextView phone, url;
 
@@ -88,6 +91,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             docImage = itemView.findViewById(R.id.imageUser);
             imgPost = itemView.findViewById(R.id.imagePost);
             DocId = itemView.findViewById(R.id.IdDoc);
+            PostDBid=itemView.findViewById(R.id.postDBid);
 
             url = itemView.findViewById(R.id.urlImage);
 
@@ -110,6 +114,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
 
             final Context context = itemView.getContext();
+
             likelay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,9 +131,11 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         btnLike.setImageResource(R.drawable.like_thumb);
                         i--;
                     }
-                    numLikes.setText(Integer.toString(i));
+                    String likes= Integer.toString(i);
+                    numLikes.setText(likes);
+                    likechangeindb(likes,PostDBid.getText().toString());
 
-                    String Database_Path = "Post/";
+
 
 
                 }
@@ -157,5 +164,16 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         }
+    }
+
+    public  void likechangeindb(String likes, String postDbid){
+
+        String Database_Path = "Post/"+postDbid+"/likes";
+        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference(Database_Path);
+
+        databaseReference.setValue(likes);
+
+
+
     }
 }
