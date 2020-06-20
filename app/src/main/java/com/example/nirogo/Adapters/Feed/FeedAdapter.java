@@ -124,19 +124,19 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         txtLike.setTextColor(context.getResources().getColor(R.color.blue_like));
                         btnLike.setImageResource(R.drawable.like_blue);
                         i++;
+                        String likes= Integer.toString(i);
+                        numLikes.setText(likes);
+                        likechangeindb(likes,PostDBid.getText().toString());
                     }
 
                     else{
                         txtLike.setTextColor(context.getResources().getColor(R.color.Black));
                         btnLike.setImageResource(R.drawable.like_thumb);
                         i--;
+                        String likes= Integer.toString(i);
+                        numLikes.setText(likes);
+                        likechangeindb(likes,PostDBid.getText().toString());
                     }
-                    String likes= Integer.toString(i);
-                    numLikes.setText(likes);
-                    likechangeindb(likes,PostDBid.getText().toString());
-
-
-
 
                 }
             });
@@ -167,13 +167,9 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public  void likechangeindb(String likes, String postDbid){
-
+        list.clear();
         String Database_Path = "Post/"+postDbid+"/likes";
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference(Database_Path);
-
         databaseReference.setValue(likes);
-
-
-
     }
 }
