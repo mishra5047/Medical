@@ -167,7 +167,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public  void likechangeindb(String likes, String postDbid){
-        list.clear();
         String Database_Path = "Post/"+postDbid+"/likes";
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference(Database_Path);
         databaseReference.setValue(likes);

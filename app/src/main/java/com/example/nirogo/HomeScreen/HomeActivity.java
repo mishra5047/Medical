@@ -231,7 +231,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
                     progressBar.setVisibility(View.INVISIBLE);
                     PostUploadInfo postUploadInfo = postSnapshot.getValue(PostUploadInfo.class);
                     list.add(postUploadInfo);
