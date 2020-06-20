@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +20,12 @@ import com.example.nirogo.Profile.DoctorProfileViewOnly;
 import com.example.nirogo.Activities.AppointmentOption;
 import com.example.nirogo.Post.PostUploadInfo;
 import com.example.nirogo.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -62,8 +67,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Picasso.get().load(itemAdapter.getUrl()).into(((ViewHolder) holder).imgPost);
         ((ViewHolder) holder).url.setText(itemAdapter.getUrl());
-        ((ViewHolder) holder).numLikes.setText(itemAdapter.getLikes());
 
+
+        //calling method to display if post is already liked
+        initialLikeStatus(((ViewHolder) holder).btnLike,((ViewHolder) holder).txtLike,((ViewHolder) holder).PostDBid.getText().toString());
+
+        //calling method to display no. of likes
+        numberoflikes(((ViewHolder) holder).numLikes,((ViewHolder) holder).PostDBid.getText().toString());
     }
 
     @Override
@@ -72,7 +82,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameUser, descUser, descPost, timePost,DocId, PostDBid;
+        TextView nameUser, descUser, descPost, timePost, DocId, PostDBid;
         ImageView docImage, imgPost;
         TextView phone, url;
 
@@ -91,7 +101,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             docImage = itemView.findViewById(R.id.imageUser);
             imgPost = itemView.findViewById(R.id.imagePost);
             DocId = itemView.findViewById(R.id.IdDoc);
-            PostDBid=itemView.findViewById(R.id.postDBid);
+            PostDBid = itemView.findViewById(R.id.postDBid);
 
             url = itemView.findViewById(R.id.urlImage);
 
@@ -102,40 +112,32 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             appoint = itemView.findViewById(R.id.shareAppointment);
 
 
+
+
             appoint.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), AppointmentOption.class);
                     intent.putExtra("docname", nameUser.getText());
                     intent.putExtra("phone", phone.getText());
-                    intent.putExtra("DocId",DocId.getText());
+                    intent.putExtra("DocId", DocId.getText());
                     v.getContext().startActivity(intent);
                 }
             });
 
             final Context context = itemView.getContext();
 
+
             likelay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-            int i = Integer.parseInt(numLikes.getText().toString());
-                    if (txtLike.getCurrentTextColor() == context.getResources().getColor(R.color.Black))
-                    {
-                        txtLike.setTextColor(context.getResources().getColor(R.color.blue_like));
-                        btnLike.setImageResource(R.drawable.like_blue);
-                        i++;
-                        String likes= Integer.toString(i);
-                        numLikes.setText(likes);
-                        likechangeindb(likes,PostDBid.getText().toString());
-                    }
 
-                    else{
-                        txtLike.setTextColor(context.getResources().getColor(R.color.Black));
-                        btnLike.setImageResource(R.drawable.like_thumb);
-                        i--;
-                        String likes= Integer.toString(i);
-                        numLikes.setText(likes);
-                        likechangeindb(likes,PostDBid.getText().toString());
+                    if (txtLike.getCurrentTextColor() == context.getResources().getColor(R.color.Black)) {
+                        FirebaseDatabase.getInstance().getReference("likes/"+ PostDBid.getText().toString()+"/").
+                                child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("true");
+                    } else {
+                        FirebaseDatabase.getInstance().getReference("likes/"+ PostDBid.getText().toString()+"/").
+                                child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
                     }
 
                 }
@@ -162,13 +164,57 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
 
 
-
         }
+
+
     }
 
-    public  void likechangeindb(String likes, String postDbid){
-        String Database_Path = "Post/"+postDbid+"/likes";
-        DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference(Database_Path);
-        databaseReference.setValue(likes);
+    public void initialLikeStatus(final ImageView btnlike, final TextView txtLike, String postDbid) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final String useruid = mAuth.getCurrentUser().getUid();
+
+        String dbPath = "likes/" + postDbid + "/";
+
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference(dbPath);
+
+        dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(useruid).exists()) {
+
+                    btnlike.setImageResource(R.drawable.like_blue);
+                    txtLike.setTextColor(context.getResources().getColor(R.color.blue_like));
+                } else {
+                    txtLike.setTextColor(context.getResources().getColor(R.color.Black));
+                    btnlike.setImageResource(R.drawable.like_thumb);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(context,"Error in generating initial like status",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void numberoflikes(final TextView txtlike, String postDbId){
+        String dbPath = "likes/" + postDbId + "/";
+
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference(dbPath);
+        dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                txtlike.setText(dataSnapshot.getChildrenCount()+" ");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(context,"Error in getting no. of likes",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
+
+
+
+
