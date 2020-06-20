@@ -79,6 +79,15 @@
             android:layout_toRightOf="@id/timePost"
             android:visibility="gone"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:id="@+id/postDBid"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@id/nameUser"
+            android:layout_toRightOf="@id/imageUser"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
     <TextView
