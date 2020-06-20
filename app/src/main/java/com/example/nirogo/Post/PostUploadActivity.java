@@ -207,7 +207,6 @@ public class PostUploadActivity extends Activity {
             // Creating second StorageReference.
             final StorageReference storageReference2nd = storageReference.child(Storage_Path + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
 
-
             // Adding addOnSuccess
             storageReference2nd.putFile(FilePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -229,7 +228,7 @@ public class PostUploadActivity extends Activity {
                             String currentDateandTime = sdf.format(new Date());
 
                             String id = firebaseAuth.getCurrentUser().getUid();
-                            PostUploadInfo docUploadInfo = new PostUploadInfo(profile, number, name, spec, currentDateandTime, det, down, 4,Docid);
+                            PostUploadInfo docUploadInfo = new PostUploadInfo(profile, number, name, spec, currentDateandTime, det, down, "4",Docid);
 
                             // Getting image upload ID.
                             // Adding image upload id s child element into databaseReference.

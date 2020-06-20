@@ -59,6 +59,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         Picasso.get().load(itemAdapter.getUrl()).into(((ViewHolder) holder).imgPost);
         ((ViewHolder) holder).url.setText(itemAdapter.getUrl());
+        ((ViewHolder) holder).numLikes.setText(itemAdapter.getLikes());
+
     }
 
     @Override
@@ -95,6 +97,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             numLikes = itemView.findViewById(R.id.noLikes);
             appoint = itemView.findViewById(R.id.shareAppointment);
 
+
             appoint.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,21 +113,24 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             likelay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    int like = Integer.parseInt((String) numLikes.getText());
-
+            int i = Integer.parseInt(numLikes.getText().toString());
                     if (txtLike.getCurrentTextColor() == context.getResources().getColor(R.color.Black))
                     {
                         txtLike.setTextColor(context.getResources().getColor(R.color.blue_like));
                         btnLike.setImageResource(R.drawable.like_blue);
-//                        like++;
+                        i++;
                     }
 
                     else{
                         txtLike.setTextColor(context.getResources().getColor(R.color.Black));
                         btnLike.setImageResource(R.drawable.like_thumb);
-  //                      like--;
+                        i--;
                     }
-    //                numLikes.setText(Integer.toString(like));
+                    numLikes.setText(Integer.toString(i));
+
+                    String Database_Path = "Post/";
+
+
                 }
             });
 

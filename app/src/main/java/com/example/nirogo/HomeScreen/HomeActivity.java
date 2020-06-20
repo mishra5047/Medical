@@ -238,6 +238,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
                 postAdapter = new FeedAdapter(list, getApplicationContext());
                 recyclerview.setAdapter(postAdapter);
+
             }
 
             @Override
