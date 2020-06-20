@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nirogo.ImageOpener;
 import com.example.nirogo.Profile.DoctorProfileViewOnly;
 import com.example.nirogo.Activities.AppointmentOption;
 import com.example.nirogo.Post.PostUploadInfo;
@@ -57,8 +58,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ((ViewHolder) holder).DocId.setText(itemAdapter.getDocId());
 
         Picasso.get().load(itemAdapter.getUrl()).into(((ViewHolder) holder).imgPost);
-
-        // ((ViewHolder) holder).txtLike.setText(itemAdapter.getLikes());
+        ((ViewHolder) holder).url.setText(itemAdapter.getUrl());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameUser, descUser, descPost, timePost,DocId;
         ImageView docImage, imgPost;
-        TextView phone;
+        TextView phone, url;
 
         LinearLayout likelay, appoint;
         ImageView btnLike;
@@ -86,6 +86,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             docImage = itemView.findViewById(R.id.imageUser);
             imgPost = itemView.findViewById(R.id.imagePost);
             DocId = itemView.findViewById(R.id.IdDoc);
+
+            url = itemView.findViewById(R.id.urlImage);
 
             likelay = itemView.findViewById(R.id.likeLayout);
             btnLike = itemView.findViewById(R.id.btnLike);
@@ -139,7 +141,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imgPost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Opening Image", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(v.getContext(), ImageOpener.class);
+                    intent.putExtra("imgurl", url.getText());
+                    v.getContext().startActivity(intent);
+
                 }
             });
 

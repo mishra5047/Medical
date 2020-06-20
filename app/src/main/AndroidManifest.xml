@@ -13,12 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".User.showUserAppointments"></activity>
+        <activity android:name=".User.UpdateProfileUser"></activity>
+        <activity android:name=".ImageOpener" />
+        <activity android:name=".User.showUserAppointments" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".HomeScreen.Navdrawer" />
         <activity android:name=".HomeScreen.MessageActivity" />
         <activity android:name=".Activities.AppointmentOption" />
-        <activity android:name=".Profile.updateprofile" />
+        <activity android:name=".Profile.UpdateProfileDoc" />
         <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.CartActivity" />
         <activity android:name=".Activities.AmbulanceActivity" />
@@ -36,7 +38,7 @@
         <activity android:name=".Doctor.DoctorActivity" />
         <activity android:name=".Activities.OptionActivity" />
         <activity android:name=".Profile.UserProfile" />
-        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Profile.DocProfile" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

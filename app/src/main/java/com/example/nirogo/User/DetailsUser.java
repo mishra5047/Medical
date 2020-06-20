@@ -193,7 +193,7 @@ public class DetailsUser extends Activity {
 
                                     // Getting image upload ID.
                                     // Adding image upload id s child element into databaseReference.
-                                    databaseReference.child(uniqueId).setValue(userUploadInfo);
+                                    databaseReference.child(id).setValue(userUploadInfo);
 
                                     Intent intent = new Intent(DetailsUser.this, HomeActivity.class);
                                     intent.putExtra("type",getIntent().getStringExtra("type"));

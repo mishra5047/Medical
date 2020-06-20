@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.nirogo.AdminShow;
 import com.example.nirogo.Doctor.DocUploadInfo;
+import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.HomeScreen.MessageActivity;
 import com.example.nirogo.HomeScreen.MessagePreview;
 import com.example.nirogo.MyAppointments;
@@ -264,6 +265,9 @@ public class AppointmentOption extends AppCompatActivity {
                         dbrefUser.child(UUID.randomUUID().toString()).setValue(userAppoint);
 
                         progressDialog.dismiss();
+
+                        Toast.makeText(getApplicationContext(), "Visit My Appointments in Profile to View", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                     }
                 }
             }

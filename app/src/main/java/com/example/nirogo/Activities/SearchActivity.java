@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.nirogo.HomeScreen.HomeActivity;
+import com.example.nirogo.Profile.DocProfile;
 import com.example.nirogo.R;
 import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
@@ -41,7 +42,7 @@ public class SearchActivity extends Activity {
                     startActivity(new Intent(getApplicationContext(), CartActivity.class));
                    } else if (position == 4) {
                     } else if (position == 5) {
-                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                    startActivity(new Intent(getApplicationContext(), DocProfile.class));
                 }
             }});
     }

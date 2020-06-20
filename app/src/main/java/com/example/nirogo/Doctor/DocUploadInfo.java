@@ -9,8 +9,6 @@ public class DocUploadInfo {
 
     public String name;
     public String id;
-    public String type;
-    public String imageName;
     public String imageURL;
     public String age;
     public String city;
@@ -61,10 +59,6 @@ public class DocUploadInfo {
 
     public String getSpeciality() {
         return speciality;
-    }
-
-    public String getImageName() {
-        return imageName;
     }
 
     public String getImageURL() {

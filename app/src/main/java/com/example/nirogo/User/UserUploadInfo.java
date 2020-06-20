@@ -5,8 +5,8 @@ public class UserUploadInfo {
     public String name;
     public String age;
     public String city;
-    public String imageName;
-    String id, number;
+    public String imageUrl;
+    public String id, number;
 
     public UserUploadInfo() {
     }
@@ -16,7 +16,7 @@ public class UserUploadInfo {
         this.id = id;
         this.age = age;
         this.city = city;
-        this.imageName = imageName;
+        this.imageUrl = imageName;
         this.number = number;
     }
 
@@ -60,11 +60,11 @@ public class UserUploadInfo {
         this.city = city;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

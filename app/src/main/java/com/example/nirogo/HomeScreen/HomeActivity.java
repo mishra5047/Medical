@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.ReportFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -25,9 +24,8 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.nirogo.Activities.AmbulanceActivity;
 import com.example.nirogo.Activities.AppointmentsActivity;
 import com.example.nirogo.Activities.CartActivity;
-import com.example.nirogo.Activities.LoginActivity;
 import com.example.nirogo.Activities.OptionActivity;
-import com.example.nirogo.Activities.ProfileActivity;
+import com.example.nirogo.Profile.DocProfile;
 import com.example.nirogo.Adapters.Feed.FeedAdapter;
 import com.example.nirogo.Post.PostUploadActivity;
 import com.example.nirogo.Post.PostUploadInfo;
@@ -105,6 +103,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //set up email in nav drawer
         View headerView= navigationView.getHeaderView(0);
         TextView userEmailHeader= (TextView)headerView.findViewById(R.id.nav_header_email);
+        if (mAuth.getCurrentUser()!=null)
         userEmailHeader.setText(mAuth.getCurrentUser().getEmail());
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -203,7 +202,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                         return true;
             case R.id.nav_item_four : if(getIntent().getStringExtra("type").equals("Doctor")) {
                                         Log.i("TYPE","DOctor");
-                                        intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                                        intent = new Intent(HomeActivity.this, DocProfile.class);
                                         intent.putExtra("type", getIntent().getStringExtra("type"));
                                         startActivity(intent);
                                         return true;
