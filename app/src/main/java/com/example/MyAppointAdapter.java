@@ -57,8 +57,6 @@ public class MyAppointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameDoc, date, time;
-        ImageView messageicon;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -67,14 +65,6 @@ public class MyAppointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
 
-            messageicon=itemView.findViewById(R.id.messageIcon);
-
-            messageicon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(),"Chat Coming Soon",Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
 }

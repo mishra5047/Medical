@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile.UpdateProfileDoc"
-    android:orientation="vertical">
+    tools:context=".User.UpdateProfileUser">
 
 
     <RelativeLayout
@@ -97,27 +95,6 @@
                 android:textColorHint="@color/DarkRed"
 
                 ></EditText>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="SPECIALITY:"
-                android:textColor="@color/Black"
-                android:textSize="20sp">
-
-            </TextView>
-
-            <EditText
-                android:id="@+id/specialityupdate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:hint="Speciality"
-                android:maxLines="8"
-                android:textColorHint="@color/DarkRed"
-                />
 
 
             <TextView

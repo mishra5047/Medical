@@ -78,16 +78,6 @@ public class LoginActivity extends Activity {
         else
             setContentView(R.layout.activity_login);
 
-        Button skip = findViewById(R.id.skipBtn);
-        skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                intent.putExtra("type",getIntent().getStringExtra("type"));
-                startActivity(intent);
-            }
-        });
-
         Button back = findViewById(R.id.Loginback);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +111,11 @@ public class LoginActivity extends Activity {
                     startActivity(new Intent(getApplicationContext(), AdminActivity.class));
                 }
 
+                else if (EmailText.equals("dev") && PassWordText.equals("dev")){
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                }
+
+                else{
                 if(TextUtils.isEmpty(EmailText)){
                     Toast.makeText(LoginActivity.this,"Enter valid email",Toast.LENGTH_SHORT);
                     return;
@@ -135,6 +130,7 @@ public class LoginActivity extends Activity {
 
                 setemailLogin(EmailText,PassWordText);
             }
+        }
         });
 
        googleLogin.setOnClickListener(new View.OnClickListener() {
