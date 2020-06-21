@@ -197,8 +197,9 @@ public class AppointmentOption extends AppCompatActivity {
                 }
                 else {
                    // add another type of messages activity
+                    Toast.makeText(getApplicationContext(), "You can chat with Dr. in Messages", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
-                    intent.putExtra("docname", docName);
                     startActivity(intent);
                 }
 

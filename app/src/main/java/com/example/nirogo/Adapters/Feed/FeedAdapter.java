@@ -111,7 +111,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             numLikes = itemView.findViewById(R.id.noLikes);
             appoint = itemView.findViewById(R.id.shareAppointment);
 
-
             appoint.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
