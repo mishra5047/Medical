@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nirogo.AdminShow;
+import com.example.nirogo.ChatActivity;
 import com.example.nirogo.Doctor.DocUploadInfo;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.HomeScreen.MessageActivity;
@@ -42,7 +43,7 @@ public class AppointmentOption extends AppCompatActivity {
     LinearLayout offline, online;
     final int UPI_PAYMENT = 0;
     String mode ;
-    String docName , docPhone;
+    String docName , docPhone, docId;
 
     DatabaseReference databaseReference, databaseReference2 ;
     String Database_Path = "UserAppointment/";
@@ -74,6 +75,7 @@ public class AppointmentOption extends AppCompatActivity {
         TextView name = findViewById(R.id.drname);
          docName = getIntent().getStringExtra("docname");
          docPhone = getIntent().getStringExtra("phone");
+         docId = getIntent().getStringExtra("docId");
         name.setText(docName);
 
         offline.setOnClickListener(new View.OnClickListener() {
@@ -264,10 +266,14 @@ public class AppointmentOption extends AppCompatActivity {
 
                         dbrefUser.child(UUID.randomUUID().toString()).setValue(userAppoint);
 
-                        progressDialog.dismiss();
 
                         Toast.makeText(getApplicationContext(), "Visit My Appointments in Profile to View", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                        intent.putExtra("docId", docId);
+                        intent.putExtra("userId", id);
+                        startActivity(intent);
+
+                        progressDialog.dismiss();
                     }
                 }
             }
