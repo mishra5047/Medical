@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nirogo.Activities.LoginActivity;
 import com.example.nirogo.Activities.OptionActivity;
 import com.example.nirogo.R;
 import com.example.nirogo.ScreenSize;
+import com.example.nirogo.User.UserActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -56,7 +58,7 @@ public class DoctorActivity extends Activity {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (user != null) {
+        if (user != null&& user.isEmailVerified()) {
             Intent intent = new Intent(DoctorActivity.this, HomeActivity.class);
             uid=user.getUid();
             intent.putExtra("USER UID",uid);
@@ -234,13 +236,20 @@ public class DoctorActivity extends Activity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(DoctorActivity.this, "Signup Successful", Toast.LENGTH_SHORT);
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            uid= user.getUid();
-                            Log.i("USER UID",uid);
-                            Intent intent=new Intent(DoctorActivity.this,DetailsDoctor.class);
-                            intent.putExtra("USER UID",uid);
-                            startActivity(intent);
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "A verification email has been send to your gmail. please verify your account and signin again.", Toast.LENGTH_LONG).show();
+                                        Intent i= new Intent(DoctorActivity.this, LoginActivity.class);
+                                        i.putExtra("type","Doctor");
+                                        startActivity(i);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Some error signing you in", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
 
 
                         } else {

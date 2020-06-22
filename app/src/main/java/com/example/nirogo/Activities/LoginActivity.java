@@ -15,11 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nirogo.AdminActivity;
+import com.example.nirogo.Doctor.DetailsDoctor;
 import com.example.nirogo.Doctor.DoctorActivity;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.R;
 import com.example.nirogo.ScreenSize;
 import com.example.nirogo.Supplier.SupplierActivity;
+import com.example.nirogo.User.DetailsUser;
 import com.example.nirogo.User.UserActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -33,6 +35,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.content.ContentValues.TAG;
 
@@ -51,6 +58,7 @@ public class LoginActivity extends Activity {
     private GoogleSignInClient mGoogleSignInClient;
 
 
+
     @Override
     public void onStart() {
         super.onStart();
@@ -58,10 +66,8 @@ public class LoginActivity extends Activity {
         FirebaseUser user= mAuth.getCurrentUser();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(user!=null){
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            intent.putExtra("type",getIntent().getStringExtra("type"));
-            startActivity(intent);
+        if(user!=null&& user.isEmailVerified()){
+            PassIntent();
         }
     }
 
@@ -104,33 +110,33 @@ public class LoginActivity extends Activity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.i("Signin Button","Clicked");
                 String EmailText= email.getText().toString().trim();
                 String PassWordText= password.getText().toString().trim();
+
+                if(EmailText.isEmpty()) {
+                    email.setError("Enter Email");
+                    return;
+                }
+
+
+
+                if(PassWordText.isEmpty()) {
+                    password.setError("Enter Password");
+                    return;
+                }
 
                 if (EmailText.equals("admin") && PassWordText.equals("admin")){
                     startActivity(new Intent(getApplicationContext(), AdminActivity.class));
                 }
 
-                else if (EmailText.equals("dev") && PassWordText.equals("dev")){
+                if (EmailText.equals("dev") && PassWordText.equals("dev")){
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                }
-
-                else{
-                if(TextUtils.isEmpty(EmailText)){
-                    Toast.makeText(LoginActivity.this,"Enter valid email",Toast.LENGTH_SHORT);
-                    return;
-
-                }
-
-                if(TextUtils.isEmpty(PassWordText)){
-                    Toast.makeText(LoginActivity.this,"Enter Password",Toast.LENGTH_SHORT);
-                    return;
-
                 }
 
                 setemailLogin(EmailText,PassWordText);
             }
-        }
         });
 
        googleLogin.setOnClickListener(new View.OnClickListener() {
@@ -150,13 +156,12 @@ public class LoginActivity extends Activity {
                     return;
                 }
                  if(Type.equals("User")){
-                    Intent i= new Intent(LoginActivity.this, UserActivity.class);
-                     i.putExtra("type", "User");
-                     startActivity(i);
+                     Intent i= new Intent(LoginActivity.this, UserActivity.class);
+                    i.putExtra("type", "User");
+                    startActivity(i);
                     return;
                 }
-
-                if(Type.equals("Supplier")){
+                 if(Type.equals("Supplier")){
                     Intent i= new Intent(LoginActivity.this, SupplierActivity.class);
                     startActivity(i);
                     return;
@@ -171,16 +176,16 @@ public class LoginActivity extends Activity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Sign in success, check if email has been verified or not
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            if(user.isEmailVerified()) {
+                                PassIntent(); //checks if user details are present in db or not
+                                return;
 
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            String uid= user.getUid();
-                            Log.i("LOGIN USER UID",uid);
-                            Toast.makeText(LoginActivity.this,"Signin Successful",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            intent.putExtra("type",getIntent().getStringExtra("type"));
-                            intent.putExtra("USER UID",uid);
-                            startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Please verify your account",Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -271,7 +276,86 @@ public class LoginActivity extends Activity {
 
     }
 
+    private void PassIntent() {
 
+        if (Type.equals("User")) {
+            DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("User/");
 
+            dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.hasChild(mAuth.getCurrentUser().getUid())) {
+                        // The child doesn't exist
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String uid = user.getUid();
+                        Log.i("LOGIN USER UID", uid);
+                        Toast.makeText(LoginActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                        i.putExtra("type", "User");
+                        i.putExtra("type", getIntent().getStringExtra("type"));
+                        i.putExtra("USER UID", uid);
+                        startActivity(i);
+                        return;
+                    } else {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String uid = user.getUid();
+                        Toast.makeText(LoginActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(LoginActivity.this, DetailsUser.class);
+                        i.putExtra("type", "User");
+                        i.putExtra("type", getIntent().getStringExtra("type"));
+                        i.putExtra("USER UID", uid);
+                        startActivity(i);
+                        return;
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+    else if (Type.equals("Doctor")) {
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Doctor/");
+
+        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(mAuth.getCurrentUser().getUid())) {
+                    // The child doesn't exist
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    String uid = user.getUid();
+                    Log.i("LOGIN USER UID", uid);
+                    Toast.makeText(LoginActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                    i.putExtra("type", "User");
+                    i.putExtra("type", getIntent().getStringExtra("type"));
+                    i.putExtra("USER UID", uid);
+                    startActivity(i);
+                    return;
+                } else {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    String uid = user.getUid();
+                    Toast.makeText(LoginActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(LoginActivity.this, DetailsDoctor.class);
+                    i.putExtra("type", "User");
+                    i.putExtra("type", getIntent().getStringExtra("type"));
+                    i.putExtra("USER UID", uid);
+                    startActivity(i);
+                    return;
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }
+}
+

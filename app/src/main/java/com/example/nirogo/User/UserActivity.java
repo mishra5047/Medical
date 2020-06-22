@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.nirogo.Activities.LoginActivity;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.Activities.MainActivity;
 import com.example.nirogo.Activities.OptionActivity;
@@ -54,7 +55,7 @@ public class UserActivity extends Activity {
         super.onStart();
         FirebaseUser user= mAuth.getCurrentUser();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(user!=null){
+        if(user!=null&& user.isEmailVerified()){
             Intent intent = new Intent(UserActivity.this, HomeActivity.class);
             intent.putExtra("type",getIntent().getStringExtra("type"));
             startActivity(intent);
@@ -107,7 +108,7 @@ public class UserActivity extends Activity {
                     return;
                 }
                 if(password.length()<6){
-                    Toast.makeText(getApplicationContext(),"PAssword too short",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Password too short",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 createrequestusingEmailPassword(emailtext,passwordtext);
@@ -211,14 +212,23 @@ public class UserActivity extends Activity {
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()) {
-                Toast.makeText(UserActivity.this,"Signup Successful",Toast.LENGTH_SHORT);
-                FirebaseUser user = mAuth.getCurrentUser();
-                Intent intent = new Intent(UserActivity.this, DetailsUser.class);
-                intent.putExtra("type", getIntent().getStringExtra("type"));
-                startActivity(intent);
+                final FirebaseUser user = mAuth.getCurrentUser();
+                user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "A verification email has been send to your gmail. please verify your account and signin again.", Toast.LENGTH_LONG).show();
+                            Intent i= new Intent(UserActivity.this,LoginActivity.class);
+                            i.putExtra("type","User");
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Some error signing you in", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
 
-               }
-               else {
+            else {
                     try {
                         throw task.getException();
                     }
