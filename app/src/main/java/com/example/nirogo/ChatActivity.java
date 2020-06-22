@@ -10,76 +10,72 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nirogo.Adapters.ChatAdapter;
+import com.example.nirogo.Adapters.Messages.Doc;
 import com.example.nirogo.Chat.ChatMessages;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
+    FirebaseAuth firebaseAuth;
+    DatabaseReference reference;
+    String docId, id;
     RecyclerView recyclerView;
-    FloatingActionButton send;
-    FirebaseListAdapter<ChatMessages> adapter;
-    RelativeLayout activity;
 
-    String user, doc;
+    ChatAdapter adapter;
+    List<Doc> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        if (getIntent().hasExtra("userId") && getIntent().hasExtra("docId")){
-            user = getIntent().getStringExtra("userId");
-            doc = getIntent().getStringExtra("docId");
-        }
-        activity = findViewById(R.id.activity_chat);
+        list = new ArrayList<>();
         recyclerView = findViewById(R.id.messagesRecycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        displayChatMessages();
-        send = findViewById(R.id.sendBtn);
-        send.setOnClickListener(new View.OnClickListener() {
+        firebaseAuth= FirebaseAuth.getInstance();
+
+        if (getIntent().hasExtra("docId")){
+            docId = getIntent().getStringExtra("docId");
+            id = getIntent().getStringExtra("userId");
+        }
+
+        String path_user = "DocChat/" + docId + "/";
+        reference = FirebaseDatabase.getInstance().getReference(path_user);
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                EditText input = findViewById(R.id.input);
-                FirebaseDatabase.getInstance().getReference("Chat/").push().setValue(new ChatMessages(input.getText().toString(),
-                        user));
-                input.setText("");
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Doc doc = snapshot.getValue(Doc.class);
+                        list.add(doc);
+                }
+            adapter = new ChatAdapter(list, getApplicationContext());
+                recyclerView.setAdapter(adapter);
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
-        }
-
-    private void displayChatMessages() {
-
-        Query query = FirebaseDatabase.getInstance().getReference("Chat/");
-
-        FirebaseListOptions<ChatMessages> options = new FirebaseListOptions.Builder<ChatMessages>()
-        .setQuery(query, ChatMessages.class).setLayout(R.layout.item_chat)
-                .build();
-
-        adapter = new FirebaseListAdapter<ChatMessages>(options) {
-            @Override
-            protected void populateView(@NonNull View v, @NonNull ChatMessages model, int position) {
-
-                TextView messageText, messageUser,messageTime;
-
-                messageText = v.findViewById(R.id.messageText);
-                messageUser = v.findViewById(R.id.message_user);
-                messageTime = v.findViewById(R.id.message_time);
-
-                messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
-                messageTime.setText(DateFormat.format("dd-MM-YYYY (HH:mm:ss)", model.getMessageTime()));
-
-            }
-        };
-        recyclerView.setAdapter(adapter);
-        }
     }
+}

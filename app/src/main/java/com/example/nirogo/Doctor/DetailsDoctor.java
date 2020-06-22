@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nirogo.Adapters.Messages.Doc;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.NearbyDoctors.UploadInfo;
 import com.example.nirogo.R;
@@ -37,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class DetailsDoctor extends Activity {
     Intent i;
@@ -50,7 +52,8 @@ public class DetailsDoctor extends Activity {
     Uri FilePathUri;
     StorageReference storageReference ;
     DatabaseReference databaseReference;
-    DatabaseReference databaseReference2;
+    DatabaseReference databaseReference2, databaseReference3;
+
 
     int Image_Request_Code = 7;
     ProgressDialog progressDialog ;
@@ -89,6 +92,7 @@ public class DetailsDoctor extends Activity {
         // Assign FirebaseDatabase instance with root database name.
         databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
         databaseReference2 = FirebaseDatabase.getInstance().getReference(Database_Path_Nearby);
+        databaseReference3 = FirebaseDatabase.getInstance().getReference("DocChat/");
 
         nameIn = findViewById(R.id.nameDoc);
         ageIn = findViewById(R.id.ageDoc);
@@ -236,10 +240,14 @@ public class DetailsDoctor extends Activity {
                                     //nearby
                                     UploadInfo info = new UploadInfo(down, name, speciality, city,id,phone);
 
+                                    // chat
+                                    Doc chat = new Doc(id, name, down);
+
                                     // Getting image upload ID.
                                     // Adding image upload id s child element into databaseReference.
                                     databaseReference.child(id).setValue(docUploadInfo);
                                     databaseReference2.child(id).setValue(info);
+                                    databaseReference3.child(id).setValue(chat);
 
                                     Intent intent = new Intent(DetailsDoctor.this, HomeActivity.class);
                                     intent.putExtra("type","Doctor");

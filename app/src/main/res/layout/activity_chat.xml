@@ -8,37 +8,11 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_send"
-        android:backgroundTint="@color/blue_bg"
-        android:clickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:tint="@color/White"
-        android:id="@+id/sendBtn"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="message"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/sendBtn"
-        android:id="@+id/input"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/sendBtn"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"/>
-    
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/messagesRecycler"
-        android:layout_above="@id/sendBtn"
+        android:layout_centerInParent="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         />

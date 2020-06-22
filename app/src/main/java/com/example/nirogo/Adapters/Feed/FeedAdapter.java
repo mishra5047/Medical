@@ -86,7 +86,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView docImage, imgPost;
         TextView phone, url;
 
-        LinearLayout likelay, appoint;
+        LinearLayout likelay, appoint, share;
         ImageView btnLike;
         TextView txtLike, numLikes;
 
@@ -109,8 +109,20 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             btnLike = itemView.findViewById(R.id.btnLike);
             txtLike = itemView.findViewById(R.id.likeTxt);
             numLikes = itemView.findViewById(R.id.noLikes);
-            appoint = itemView.findViewById(R.id.shareAppointment);
 
+            share = itemView.findViewById(R.id.shareLayout);
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Nirogo");
+                    intent.putExtra(Intent.EXTRA_TEXT, "Post by " + nameUser.getText() + " on Nirogo");
+                    v.getContext().startActivity(Intent.createChooser(intent, "Share Using"));
+                }
+            });
+
+            appoint = itemView.findViewById(R.id.shareAppointment);
 
             appoint.setOnClickListener(new View.OnClickListener() {
                 @Override

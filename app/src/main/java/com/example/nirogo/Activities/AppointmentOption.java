@@ -82,8 +82,7 @@ public class AppointmentOption extends AppCompatActivity {
             @Override
             public void onClick(View v) {
              //   payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
-                mode = "offline";
-                addToDB();
+                addToDB("offline");
             }
         });
 
@@ -91,8 +90,8 @@ public class AppointmentOption extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             //    payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
-                mode = "online";
-                addToDB();
+
+                addToDB("online");
             }
         });
 
@@ -197,8 +196,10 @@ public class AppointmentOption extends AppCompatActivity {
                 }
                 else {
                    // add another type of messages activity
-                    Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
-                    intent.putExtra("docname", docName);
+                    Toast.makeText(getApplicationContext(), "You can chat with Dr. in Messages", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                    intent.putExtra("docId", docId);
                     startActivity(intent);
                 }
 
@@ -223,7 +224,7 @@ public class AppointmentOption extends AppCompatActivity {
         }
     }
 
-    private void addToDB() {
+    private void addToDB(final String mode) {
         final String Database_Path_Fetch = "User/";
 
         databaseReference_fetch = FirebaseDatabase.getInstance().getReference(Database_Path_Fetch);
@@ -242,7 +243,7 @@ public class AppointmentOption extends AppCompatActivity {
                     String idCheck = userData.getId();
 
                     String path_admin = "Admin/";
-                    String path_user = "UserApt/" + id +"/";
+                    String path_user = "UserApt/" + id +"/" + mode + "/";
                     dbrefUser = FirebaseDatabase.getInstance().getReference(path_user);
                     dbrefAdmin = FirebaseDatabase.getInstance().getReference(path_admin);
 
@@ -266,6 +267,7 @@ public class AppointmentOption extends AppCompatActivity {
 
                         dbrefUser.child(UUID.randomUUID().toString()).setValue(userAppoint);
 
+                        progressDialog.dismiss();
 
                         Toast.makeText(getApplicationContext(), "Visit My Appointments in Profile to View", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
@@ -273,7 +275,6 @@ public class AppointmentOption extends AppCompatActivity {
                         intent.putExtra("userId", id);
                         startActivity(intent);
 
-                        progressDialog.dismiss();
                     }
                 }
             }
