@@ -2,6 +2,7 @@ package com.example.nirogo.HomeScreen;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -367,6 +368,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void signOut() {
+        SharedPreferences pref= getSharedPreferences("UserType",0);
+        SharedPreferences.Editor mEditor= pref.edit();
+        mEditor.remove("Type");
+        mEditor.commit();
         mAuth.signOut();
         finish();
                 //Add Alert dialogue Box

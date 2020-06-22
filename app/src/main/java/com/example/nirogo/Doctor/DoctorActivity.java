@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import com.example.nirogo.Activities.LoginActivity;
 import com.example.nirogo.Activities.OptionActivity;
+import com.example.nirogo.Adapters.Messages.Doc;
 import com.example.nirogo.R;
 import com.example.nirogo.ScreenSize;
+import com.example.nirogo.User.DetailsUser;
 import com.example.nirogo.User.UserActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -35,6 +37,12 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.example.nirogo.HomeScreen.HomeActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import static android.content.ContentValues.TAG;
 
 
@@ -51,21 +59,6 @@ public class DoctorActivity extends Activity {
     private String size;
     private  String uid;
     private ProgressDialog progressDialog;
-
-    @Override
-    public void onStart() {
-
-        super.onStart();
-        FirebaseUser user = mAuth.getCurrentUser();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (user != null&& user.isEmailVerified()) {
-            Intent intent = new Intent(DoctorActivity.this, HomeActivity.class);
-            uid=user.getUid();
-            intent.putExtra("USER UID",uid);
-            startActivity(intent);
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -199,14 +192,7 @@ public class DoctorActivity extends Activity {
                         if (task.isSuccessful()) {
 
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            uid= user.getUid();
-
-                            Log.i("USER UID",uid);
-                            Toast.makeText(DoctorActivity.this,"SignIn Successful",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(DoctorActivity.this, DetailsDoctor.class);
-                            intent.putExtra("type",getIntent().getStringExtra("type"));
-                            startActivity(intent);
+                            PassIntent();
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
@@ -236,6 +222,8 @@ public class DoctorActivity extends Activity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Log.i("TAG","REached");
+
                             final FirebaseUser user = mAuth.getCurrentUser();
                             user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -277,4 +265,43 @@ public class DoctorActivity extends Activity {
                         } }
                 });
     }
-}
+
+    private void PassIntent() {
+            DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Doctor/");
+
+            dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if (snapshot.hasChild(mAuth.getCurrentUser().getUid())) {
+                        // The child doesn't exist
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String uid = user.getUid();
+                        Log.i("LOGIN USER UID", uid);
+                        Toast.makeText(DoctorActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(DoctorActivity.this, HomeActivity.class);
+                        i.putExtra("type", "Doctor");
+                        i.putExtra("USER UID", uid);
+                        startActivity(i);
+                        return;
+                    } else {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String uid = user.getUid();
+                        Toast.makeText(DoctorActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(DoctorActivity.this, DetailsDoctor.class);
+                        i.putExtra("type", "Doctor");
+                        i.putExtra("USER UID", uid);
+                        startActivity(i);
+                        return;
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+    }
+

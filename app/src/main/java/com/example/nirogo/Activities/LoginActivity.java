@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -56,6 +57,8 @@ public class LoginActivity extends Activity {
     private Intent intent;
     private String Type;
     private GoogleSignInClient mGoogleSignInClient;
+    SharedPreferences sharedPreferences;
+
 
 
 
@@ -64,10 +67,10 @@ public class LoginActivity extends Activity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser user= mAuth.getCurrentUser();
-
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(user!=null&& user.isEmailVerified()){
             PassIntent();
+            return;
         }
     }
 
@@ -258,10 +261,7 @@ public class LoginActivity extends Activity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                            intent.putExtra("type",getIntent().getStringExtra("type"));
-                            startActivity(intent);
+                                PassIntent();
                         }
 
                         else {
@@ -331,7 +331,6 @@ public class LoginActivity extends Activity {
                     Toast.makeText(LoginActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                     i.putExtra("type", "User");
-                    i.putExtra("type", getIntent().getStringExtra("type"));
                     i.putExtra("USER UID", uid);
                     startActivity(i);
                     return;
@@ -341,7 +340,6 @@ public class LoginActivity extends Activity {
                     Toast.makeText(LoginActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this, DetailsDoctor.class);
                     i.putExtra("type", "User");
-                    i.putExtra("type", getIntent().getStringExtra("type"));
                     i.putExtra("USER UID", uid);
                     startActivity(i);
                     return;
