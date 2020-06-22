@@ -81,18 +81,17 @@ public class AppointmentOption extends AppCompatActivity {
         offline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
-                addToDB("offline");
+                payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
+
             }
         });
 
         online.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //    payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
+                payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
 
-                addToDB("online");
-            }
+                   }
         });
 
     }
@@ -193,11 +192,12 @@ public class AppointmentOption extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Transaction successful.", Toast.LENGTH_SHORT).show();
                 if (mode.equals("offline")){
                     Toast.makeText(getApplicationContext(), "You have chosen offline mode, visit the Dr. ", Toast.LENGTH_SHORT).show();
+                    addToDB("offline");
                 }
                 else {
                    // add another type of messages activity
                     Toast.makeText(getApplicationContext(), "You can chat with Dr. in Messages", Toast.LENGTH_SHORT).show();
-
+                    addToDB("online");
                     Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
                     intent.putExtra("docId", docId);
                     startActivity(intent);
@@ -243,7 +243,7 @@ public class AppointmentOption extends AppCompatActivity {
                     String idCheck = userData.getId();
 
                     String path_admin = "Admin/";
-                    String path_user = "UserApt/" + id +"/" + mode + "/";
+                    String path_user = "UserApt/" + mode + "/" + id + "/";
                     dbrefUser = FirebaseDatabase.getInstance().getReference(path_user);
                     dbrefAdmin = FirebaseDatabase.getInstance().getReference(path_admin);
 
