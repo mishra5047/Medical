@@ -28,6 +28,12 @@ public class DocUploadInfo {
         this.imageURL= url;
     }
 
+    public DocUploadInfo(String id, String name, String imageURL) {
+        this.name = name;
+        this.id = id;
+        this.imageURL = imageURL;
+    }
+
     public String getPhone() {
         return phone;
     }

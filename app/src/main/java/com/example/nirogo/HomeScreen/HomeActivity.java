@@ -27,6 +27,7 @@ import com.example.nirogo.Activities.AmbulanceActivity;
 import com.example.nirogo.Activities.AppointmentsActivity;
 import com.example.nirogo.Activities.CartActivity;
 import com.example.nirogo.Activities.OptionActivity;
+import com.example.nirogo.ChatActivity;
 import com.example.nirogo.Profile.DocProfile;
 import com.example.nirogo.Adapters.Feed.FeedAdapter;
 import com.example.nirogo.Post.PostUploadActivity;
@@ -72,6 +73,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(HomeActivity.this, OptionActivity.class);
+        signOut();
         startActivity(intent);
     }
 
@@ -158,7 +160,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         chatbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, MessagePreview.class);
+                Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
                 startActivity(intent);
                 Animatoo.animateSwipeRight(HomeActivity.this);
             }
