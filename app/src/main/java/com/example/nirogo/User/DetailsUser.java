@@ -69,12 +69,11 @@ public class DetailsUser extends Activity {
         nameIn = findViewById(R.id.nameUser);
         ageIn = findViewById(R.id.ageUser);
         cityIn = findViewById(R.id.cityUser);
-        cameraBut = findViewById(R.id.imageButton);
         cameraDisp = findViewById(R.id.imageDisp);
 
         progressDialog  = new ProgressDialog(this);
 
-        cameraBut.setOnClickListener(new View.OnClickListener() {
+        cameraDisp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

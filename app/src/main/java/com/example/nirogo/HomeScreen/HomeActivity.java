@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -67,7 +68,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     StorageReference storageReference;
     FirebaseAuth mAuth;
     String Database_Path = "Post/";
-
+    EditText search;
+    ImageView searchImg;
 
     @Override
     public void onBackPressed() {
@@ -110,6 +112,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         TextView userEmailHeader= (TextView)headerView.findViewById(R.id.nav_header_email);
         final ImageView propic=(ImageView)headerView.findViewById(R.id.image_nav_header);
         final TextView DocnameNav=(TextView) headerView.findViewById(R.id.nav_header_name);
+        propic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getIntent().getStringExtra("type").equals("Doctor"))
+                startActivity(new Intent(getApplicationContext(), DocProfile.class));
+
+                else
+                    startActivity(new Intent(getApplicationContext(), UserProfile.class));
+            }
+        });
+
+
+        search = findViewById(R.id.searchItem);
+        searchImg = findViewById(R.id.icon_search);
+
+        searchImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String in = search.getText().toString();
+                list.clear();
+                if (in.isEmpty())
+                    settingfeedadapter();
+
+                else
+                settingSearchfeed(in);
+
+            }
+        });
 
         if (mAuth.getCurrentUser()!=null)
         userEmailHeader.setText(mAuth.getCurrentUser().getEmail());
@@ -153,14 +183,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        settingfeedadapter();
-
+       settingfeedadapter();
 
         ImageView chatbtn = findViewById(R.id.chatBtn);
         chatbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
+                Intent intent = new Intent(HomeActivity.this, MessagePreview.class);
                 startActivity(intent);
                 Animatoo.animateSwipeRight(HomeActivity.this);
             }
@@ -266,7 +295,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void settingfeedadapter(){
-
         swipeRefreshLayout.setRefreshing(true);
         recyclerview = findViewById(R.id.recyclerView);
 
@@ -297,6 +325,36 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    private void settingSearchfeed(final String name){
+        swipeRefreshLayout.setRefreshing(true);
+        recyclerview = findViewById(R.id.recyclerView);
+
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+
+        databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    PostUploadInfo postUploadInfo = postSnapshot.getValue(PostUploadInfo.class);
+                    if (postUploadInfo.getDocName().equals(name))
+                    list.add(postUploadInfo);
+                }
+                postAdapter = new FeedAdapter(list, getApplicationContext());
+                recyclerview.setAdapter(postAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+        swipeRefreshLayout.setRefreshing(false);
+    }
 
     private void signOut() {
         mAuth.signOut();

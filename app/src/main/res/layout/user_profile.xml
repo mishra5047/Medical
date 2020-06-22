@@ -14,16 +14,6 @@
         android:requiresFadingEdge="vertical">
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/userupdate"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:src="@drawable/pencil"
-        android:layout_alignParentRight="true"
-        >
-
-    </ImageView>
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userprofilepic"
         android:layout_width="140dp"
@@ -48,6 +38,16 @@
         android:layout_below="@id/userprofilepic"
         android:textColor="@color/Black">
     </TextView>
+
+    <ImageView
+        android:id="@+id/userupdate"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/edit_icon"
+        android:layout_toRightOf="@id/userprofilename"
+        android:layout_above="@id/userprofileage"
+        />
 
     <TextView
         android:id="@+id/userprofileage"
