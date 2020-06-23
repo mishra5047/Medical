@@ -247,7 +247,7 @@ public class DetailsDoctor extends Activity {
                                     // Adding image upload id s child element into databaseReference.
                                     databaseReference.child(id).setValue(docUploadInfo);
                                     databaseReference2.child(id).setValue(info);
-                                    databaseReference3.child(id).setValue(chat);
+                                    databaseReference3.child(UUID.randomUUID().toString()).setValue(chat);
 
                                     Intent intent = new Intent(DetailsDoctor.this, HomeActivity.class);
                                     intent.putExtra("type","Doctor");
