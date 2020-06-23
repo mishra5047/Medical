@@ -2,6 +2,7 @@ package com.example.nirogo.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,9 +15,13 @@ public class MainActivity extends Activity {
 
     TextView txt;
     public static String size;
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final SharedPreferences pref = getSharedPreferences("UserType", 0); // 0 - for private mode
         ScreenSize size_check = new ScreenSize();
         size = size_check.screenCheck(MainActivity.this);
 
@@ -31,8 +36,10 @@ public class MainActivity extends Activity {
     txt.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent =  new Intent(MainActivity.this, OptionActivity.class);
-            startActivity(intent);
+            if(!pref.contains("Type")) {
+                Intent intent = new Intent(MainActivity.this, OptionActivity.class);
+                startActivity(intent);
+            }
         }
     });
 

@@ -2,6 +2,7 @@ package com.example.nirogo.HomeScreen;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ import com.example.nirogo.Profile.UserProfile;
 import com.example.nirogo.R;
 import com.example.nirogo.ScreenSize;
 import com.gauravk.bubblenavigation.BubbleNavigationConstraintView;
+import com.gauravk.bubblenavigation.BubbleToggleView;
 import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,6 +66,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ProgressBar progressBar;
     RecyclerView recyclerview;
     SwipeRefreshLayout swipeRefreshLayout;
+    ScrollView scrollView;
+    BubbleToggleView bubbleToggleView;
     //db
     DatabaseReference databaseReference;
     StorageReference storageReference;
@@ -90,6 +95,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Log.i("Screen Return Value", "Small");
         } else
             setContentView(R.layout.activity_home);
+        scrollView=(ScrollView)findViewById(R.id.ScrollviewHome);
+        bubbleToggleView=(BubbleToggleView) findViewById(R.id.c_item_menu);
+        bubbleToggleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView.fullScroll(ScrollView.FOCUS_UP);
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
@@ -208,11 +221,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         final BubbleNavigationConstraintView bubblenavigation = findViewById(R.id.bottomNav);
-        bubblenavigation.setCurrentActiveItem(0);
         bubblenavigation.setNavigationChangeListener(new BubbleNavigationChangeListener() {
             @Override
             public void onNavigationChanged(View view, int position) {
-
                 if (position == 1) {
                     Intent intent= new Intent(HomeActivity.this, AppointmentsActivity.class);
                     intent.putExtra("type",getIntent().getStringExtra("type"));
@@ -357,6 +368,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void signOut() {
+        SharedPreferences pref= getSharedPreferences("UserType",0);
+        SharedPreferences.Editor mEditor= pref.edit();
+        mEditor.remove("Type");
+        mEditor.commit();
         mAuth.signOut();
         finish();
                 //Add Alert dialogue Box

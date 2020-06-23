@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.nirogo.Activities.LoginActivity;
+import com.example.nirogo.Doctor.DetailsDoctor;
+import com.example.nirogo.Doctor.DoctorActivity;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.Activities.MainActivity;
 import com.example.nirogo.Activities.OptionActivity;
@@ -32,6 +35,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.content.ContentValues.TAG;
 
@@ -54,7 +62,7 @@ public class UserActivity extends Activity {
         super.onStart();
         FirebaseUser user= mAuth.getCurrentUser();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(user!=null){
+        if(user!=null&& user.isEmailVerified()){
             Intent intent = new Intent(UserActivity.this, HomeActivity.class);
             intent.putExtra("type",getIntent().getStringExtra("type"));
             startActivity(intent);
@@ -107,7 +115,7 @@ public class UserActivity extends Activity {
                     return;
                 }
                 if(password.length()<6){
-                    Toast.makeText(getApplicationContext(),"PAssword too short",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Password too short",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 createrequestusingEmailPassword(emailtext,passwordtext);
@@ -182,11 +190,7 @@ public class UserActivity extends Activity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(UserActivity.this,"SignIn Successful",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(UserActivity.this, DetailsUser.class);
-                            intent.putExtra("type", getIntent().getStringExtra("type"));
-                            startActivity(intent);
+                            PassIntent();
                         }
 
                         else {
@@ -211,14 +215,23 @@ public class UserActivity extends Activity {
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()) {
-                Toast.makeText(UserActivity.this,"Signup Successful",Toast.LENGTH_SHORT);
-                FirebaseUser user = mAuth.getCurrentUser();
-                Intent intent = new Intent(UserActivity.this, DetailsUser.class);
-                intent.putExtra("type", getIntent().getStringExtra("type"));
-                startActivity(intent);
+                final FirebaseUser user = mAuth.getCurrentUser();
+                user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "A verification email has been send to your gmail. please verify your account and signin again.", Toast.LENGTH_LONG).show();
+                            Intent i= new Intent(UserActivity.this,LoginActivity.class);
+                            i.putExtra("type","User");
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Some error signing you in", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
 
-               }
-               else {
+            else {
                     try {
                         throw task.getException();
                     }
@@ -241,5 +254,42 @@ public class UserActivity extends Activity {
                 }
             }
             });
+    }
+
+    private void PassIntent() {
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("User/");
+
+        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(mAuth.getCurrentUser().getUid())) {
+                    // The child doesn't exist
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    String uid = user.getUid();
+                    Log.i("LOGIN USER UID", uid);
+                    Toast.makeText(UserActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(UserActivity.this, HomeActivity.class);
+                    i.putExtra("type", "User");
+                    i.putExtra("USER UID", uid);
+                    startActivity(i);
+                    return;
+                } else {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    String uid = user.getUid();
+                    Toast.makeText(UserActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(UserActivity.this, DetailsUser.class);
+                    i.putExtra("type", "User");
+                    i.putExtra("USER UID", uid);
+                    startActivity(i);
+                    return;
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
