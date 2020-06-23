@@ -23,6 +23,7 @@
             >
 
             <LinearLayout
+                android:layout_marginBottom="12dp"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:background="@color/blue_bg"
@@ -34,7 +35,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/menu"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="7dp"
                     android:layout_marginTop="15dp"
                     />
 
@@ -53,7 +54,6 @@
                         android:hint="Search"
                         android:layout_weight="3"
                         android:textSize="17sp"
-                        android:layout_marginBottom="4dp"
                         android:textColorHint="@color/Black"
                         android:id="@+id/searchItem"/>
 
@@ -72,9 +72,9 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/chatBtn"
                     android:layout_weight="1"
-                    android:layout_width="40dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_width="30dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="10dp"
                     android:background="@drawable/chat_white"
                     android:layout_marginTop="10dp"
                     />
