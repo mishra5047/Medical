@@ -76,13 +76,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     EditText search;
     ImageView searchImg;
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(HomeActivity.this, OptionActivity.class);
-        signOut();
-        startActivity(intent);
-    }
+    // @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(HomeActivity.this, OptionActivity.class);
+//        signOut();
+//        startActivity(intent);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Log.i("Screen Return Value", "Small");
         } else
             setContentView(R.layout.activity_home);
+
+        SharedPreferences pref= getSharedPreferences("UserType",0);
+        SharedPreferences.Editor mEditor= pref.edit();
+        if(!pref.contains("Type")) {
+            //Log.i("TAG",getIntent().getStringExtra("type"));
+            mEditor.putString("Type", getIntent().getStringExtra("type"));
+            mEditor.commit();
+        }
+        Log.i("TYPE SHARED",pref.getString("Type","NONE"));
+
         scrollView=(ScrollView)findViewById(R.id.ScrollviewHome);
         bubbleToggleView=(BubbleToggleView) findViewById(R.id.c_item_menu);
         bubbleToggleView.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         propic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getIntent().getStringExtra("type").equals("Doctor"))
+               if(getIntent().getStringExtra("type").equals("Doctor"))
                 startActivity(new Intent(getApplicationContext(), DocProfile.class));
 
                 else

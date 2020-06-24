@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -248,7 +249,10 @@ public class DetailsDoctor extends Activity {
                                     databaseReference.child(id).setValue(docUploadInfo);
                                     databaseReference2.child(id).setValue(info);
                                     databaseReference3.child(UUID.randomUUID().toString()).setValue(chat);
-
+                                    SharedPreferences pref= getSharedPreferences("UserType",0);
+                                    SharedPreferences.Editor mEditor= pref.edit();
+                                    mEditor.putString("Type","Doctor");
+                                    mEditor.commit();
                                     Intent intent = new Intent(DetailsDoctor.this, HomeActivity.class);
                                     intent.putExtra("type","Doctor");
                                     startActivity(intent);
