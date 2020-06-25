@@ -1,6 +1,7 @@
-package com.example.nirogo.Adapters;
+package com.example.nirogo.Adapters.Chat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nirogo.Adapters.Messages.Doc;
+import com.example.nirogo.HomeScreen.MessageActivity;
 import com.example.nirogo.R;
 import com.squareup.picasso.Picasso;
 
@@ -41,12 +43,21 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        Doc itemAdapter = list.get(position);
+        final Doc itemAdapter = list.get(position);
 
         ((ChatAdapter.ViewHolder) holder).name.setText(itemAdapter.getUsername());
         Picasso.get().load(itemAdapter.getImageUrl()).into(((ChatAdapter.ViewHolder) holder).image);
         ((ChatAdapter.ViewHolder) holder).id.setText(itemAdapter.getId());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MessageActivity.class);
+                intent.putExtra("docid", itemAdapter.getId());
+                v.getContext().startActivity(intent);
+
+            }
+        });
     }
 
     @Override

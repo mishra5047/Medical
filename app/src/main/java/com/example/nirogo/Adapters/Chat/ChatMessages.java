@@ -1,8 +1,6 @@
-package com.example.nirogo.Chat;
+package com.example.nirogo.Adapters.Chat;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class ChatMessages {
 
