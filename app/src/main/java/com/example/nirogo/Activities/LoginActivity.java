@@ -330,7 +330,7 @@ public class LoginActivity extends Activity {
                     Log.i("LOGIN USER UID", uid);
                     Toast.makeText(LoginActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                    i.putExtra("type", "User");
+                    i.putExtra("type", "Doctor");
                     i.putExtra("USER UID", uid);
                     startActivity(i);
                     return;
@@ -339,7 +339,7 @@ public class LoginActivity extends Activity {
                     String uid = user.getUid();
                     Toast.makeText(LoginActivity.this, "Signin Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this, DetailsDoctor.class);
-                    i.putExtra("type", "User");
+                    i.putExtra("type", "Doctor");
                     i.putExtra("USER UID", uid);
                     startActivity(i);
                     return;
