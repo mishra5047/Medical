@@ -212,7 +212,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         chatbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, MessagePreview.class);
+                Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
                 startActivity(intent);
                 Animatoo.animateSwipeRight(HomeActivity.this);
             }
@@ -386,9 +386,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         finish();
                 //Add Alert dialogue Box
                 startActivity(new Intent(HomeActivity.this,OptionActivity.class));
-
     }
-
-
 }
 
