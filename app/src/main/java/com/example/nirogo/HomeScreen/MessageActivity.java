@@ -35,15 +35,13 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle("");
 
         String name = null;
         if (getIntent().hasExtra("docname"))
             name = getIntent().getStringExtra("docname");
-
-
 
     }
 }
