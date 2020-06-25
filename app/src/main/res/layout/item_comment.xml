@@ -1,0 +1,34 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="5dp">
+    
+    <TextView
+        android:id="@+id/comment_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="15dp"
+        android:text="NAME"
+        android:textStyle="bold"
+        android:textColor="@color/Black"
+        android:layout_marginTop="7dp"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/comment_usercomment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="15dp"
+        android:text="This is awesome."
+        android:textColor="@color/grey_500"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="7dp"
+        >
+    </TextView>
+
+</LinearLayout>
