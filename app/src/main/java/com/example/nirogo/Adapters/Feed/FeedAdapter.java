@@ -90,7 +90,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         LinearLayout likelay, appoint, share;
         ImageView btnLike;
         TextView txtLike, numLikes;
-        ImageView Commenticon;
+        LinearLayout Commenticon;
 
         public ViewHolder(View itemView) {
             super(itemView);
