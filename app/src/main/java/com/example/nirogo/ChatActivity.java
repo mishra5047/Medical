@@ -1,6 +1,7 @@
 package com.example.nirogo;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,7 +51,7 @@ public class ChatActivity extends AppCompatActivity {
             docId = getIntent().getStringExtra("docId");
             id = getIntent().getStringExtra("userId");
         }
-        if (getIntent().hasExtra("type")) {
+        if (getIntent().hasExtra("type") && (getIntent().hasExtra("docId"))) {
             if (getIntent().getStringExtra("type").equalsIgnoreCase("User")) {
                 String path_user = "DocChat/";
                 reference = FirebaseDatabase.getInstance().getReference(path_user);
@@ -71,7 +72,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     }
                 });
-            } else if (type.equalsIgnoreCase("doctor")) {
+            } else if (type.equalsIgnoreCase("doctor")&&(getIntent().hasExtra("docId"))) {
                 String path_user_new = "ChatDoc/" + firebaseAuth.getCurrentUser().getUid().toString() + "/";
                 reference2 = FirebaseDatabase.getInstance().getReference(path_user_new);
                 reference2.addValueEventListener(new ValueEventListener() {
@@ -92,6 +93,8 @@ public class ChatActivity extends AppCompatActivity {
                 });
             }
         }
+        else
+            Toast.makeText(getApplicationContext(), "Not Found", Toast.LENGTH_SHORT).show();
     }
 
 }
