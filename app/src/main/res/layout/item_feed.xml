@@ -189,19 +189,27 @@
                 android:src="@drawable/call_icon"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Appointment"
-                android:textColor="@color/Black"
-                android:textSize="15sp"
-                android:layout_marginLeft="5dp"
-                android:layout_gravity="center_vertical"
-                />
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/shareLayout"
+        android:id="@+id/shareLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/share_new_icon"
+            />
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/CommentLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -212,17 +220,7 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/share_new_icon"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Share"
-                android:textColor="@color/Black"
-                android:textSize="15sp"
-                android:layout_marginLeft="5dp"
-                android:layout_gravity="center_vertical"
+                android:src="@drawable/commenticon"
                 />
         </LinearLayout>
 

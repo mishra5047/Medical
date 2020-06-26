@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nirogo.Adapters.Chat.ChatMessages;
+import com.example.nirogo.Adapters.Chat.ChatAdapter;
 import com.example.nirogo.Adapters.Chat.MessageAdapter;
 import com.example.nirogo.Adapters.Messages.Doc;
 import com.example.nirogo.R;
@@ -42,7 +43,7 @@ public class MessageActivity extends AppCompatActivity {
     ImageButton send;
     EditText message;
 
-    MessageAdapter messageAdapter;
+   MessageAdapter messageAdapter;
     List<ChatMessages> chat;
 
     RecyclerView recyclerview;
@@ -53,6 +54,8 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -128,6 +131,8 @@ public class MessageActivity extends AppCompatActivity {
 
         chat = new ArrayList<>();
 
+
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats/");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -149,5 +154,6 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nirogo.HomeScreen.CommentsActivity;
 import com.example.nirogo.ImageOpener;
 import com.example.nirogo.Profile.DoctorProfileViewOnly;
 import com.example.nirogo.Activities.AppointmentOption;
@@ -89,6 +90,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         LinearLayout likelay, appoint, share;
         ImageView btnLike;
         TextView txtLike, numLikes;
+        LinearLayout Commenticon;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -102,13 +104,13 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imgPost = itemView.findViewById(R.id.imagePost);
             DocId = itemView.findViewById(R.id.IdDoc);
             PostDBid = itemView.findViewById(R.id.postDBid);
-
             url = itemView.findViewById(R.id.urlImage);
 
             likelay = itemView.findViewById(R.id.likeLayout);
             btnLike = itemView.findViewById(R.id.btnLike);
             txtLike = itemView.findViewById(R.id.likeTxt);
             numLikes = itemView.findViewById(R.id.noLikes);
+            Commenticon=itemView.findViewById(R.id.CommentLayout);
 
             share = itemView.findViewById(R.id.shareLayout);
             share.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +172,15 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     intent.putExtra("imgurl", url.getText());
                     v.getContext().startActivity(intent);
 
+                }
+            });
+
+            Commenticon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), CommentsActivity.class);
+                    intent.putExtra("POST ID",PostDBid.getText().toString());
+                    v.getContext().startActivity(intent);
                 }
             });
 
