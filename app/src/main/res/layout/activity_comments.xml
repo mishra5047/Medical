@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeScreen.CommentsActivity"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/toolbar"
+        android:orientation="horizontal">
+    <ImageView
+        android:layout_width="42dp"
+        android:layout_height="40dp"
+        android:id="@+id/backBtn"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/back_black">
+    </ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="Comments"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/Black"
+        android:textStyle="bold">
+
+    </TextView>
+
+
+</LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginBottom="50dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclercomments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="53dp"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/noComments"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="No Comments to display"
+            android:visibility="invisible"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+        </TextView>
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="20sp"
+            android:hint="Add a comment"></EditText>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginVertical="7dp"
+            android:src="@drawable/send"
+            android:layout_marginLeft="20dp">
+        </ImageView>
+    </LinearLayout>
+
+</RelativeLayout>

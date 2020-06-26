@@ -55,6 +55,9 @@ public class MessageActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +131,8 @@ public class MessageActivity extends AppCompatActivity {
 
         chat = new ArrayList<>();
 
+
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats/");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -149,5 +154,6 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }

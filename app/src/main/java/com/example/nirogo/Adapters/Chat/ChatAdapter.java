@@ -67,7 +67,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         return list.size();
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView image;
         TextView name, id;
