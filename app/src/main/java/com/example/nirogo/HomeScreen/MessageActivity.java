@@ -52,7 +52,6 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -76,6 +75,8 @@ public class MessageActivity extends AppCompatActivity {
     recyclerview.setLayoutManager(linearLayoutManager);
 
     final String docid = getIntent().getStringExtra("docid");
+    final String name_doc = getIntent().getStringExtra("docname");
+    final String url =  getIntent().getStringExtra("url");
     user = FirebaseAuth.getInstance().getCurrentUser();
 
     send.setOnClickListener(new View.OnClickListener() {
@@ -97,10 +98,10 @@ public class MessageActivity extends AppCompatActivity {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             Doc doc = dataSnapshot.getValue(Doc.class);
-            name.setText(doc.getUsername());
-            Picasso.get().load(doc.getImageUrl()).into(image);
+            name.setText(name_doc);
+            Picasso.get().load(url).into(image);
 
-            readMessages(user.getUid(), docid, doc.getImageUrl());
+            readMessages(user.getUid(), docid, url);
         }
 
         @Override

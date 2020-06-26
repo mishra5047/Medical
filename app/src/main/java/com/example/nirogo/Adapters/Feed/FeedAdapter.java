@@ -90,7 +90,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ImageView btnLike;
         TextView txtLike, numLikes;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             phone = itemView.findViewById(R.id.noDoc);

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.nirogo.Adapters.Chat.ChatAdapter;
 import com.example.nirogo.Adapters.Messages.Doc;
@@ -22,9 +23,10 @@ import java.util.List;
 public class ChatActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
-    DatabaseReference reference;
+    DatabaseReference reference, reference2;
     String docId, id;
     RecyclerView recyclerView;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     ChatAdapter adapter;
     List<Doc> list;
@@ -41,53 +43,55 @@ public class ChatActivity extends AppCompatActivity {
 
         firebaseAuth= FirebaseAuth.getInstance();
 
-        if (getIntent().hasExtra("type"))
         type = getIntent().getStringExtra("type");
+
 
         if (getIntent().hasExtra("docId")){
             docId = getIntent().getStringExtra("docId");
             id = getIntent().getStringExtra("userId");
         }
-
-        if(type.equals("user")) {
-            String path_user = "DocChat/";
-            reference = FirebaseDatabase.getInstance().getReference(path_user);
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Doc doc = snapshot.getValue(Doc.class);
-                        list.add(doc);
+        if (getIntent().hasExtra("type")) {
+            if (getIntent().getStringExtra("type").equalsIgnoreCase("User")) {
+                String path_user = "DocChat/";
+                reference = FirebaseDatabase.getInstance().getReference(path_user);
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Doc doc = snapshot.getValue(Doc.class);
+                            if (docId.equalsIgnoreCase(doc.getId()))
+                            list.add(doc);
+                        }
+                        adapter = new ChatAdapter(list, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
                     }
-                    adapter = new ChatAdapter(list, getApplicationContext());
-                    recyclerView.setAdapter(adapter);
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
-        }
-        else if (type.equals("doctor")){
-            String path_user = "ChatDoc/" + firebaseAuth.getUid();
-            reference = FirebaseDatabase.getInstance().getReference(path_user);
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Doc doc = snapshot.getValue(Doc.class);
-                        list.add(doc);
                     }
-                    adapter = new ChatAdapter(list, getApplicationContext());
-                    recyclerView.setAdapter(adapter);
-                }
+                });
+            } else if (type.equalsIgnoreCase("doctor")) {
+                String path_user_new = "ChatDoc/" + firebaseAuth.getCurrentUser().getUid().toString() + "/";
+                reference2 = FirebaseDatabase.getInstance().getReference(path_user_new);
+                reference2.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Doc doc = snapshot.getValue(Doc.class);
+                            list.add(doc);
+                        }
+                        adapter = new ChatAdapter(list, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
+                    }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+            }
         }
     }
+
 }

@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 public class AppointmentOption extends AppCompatActivity {
@@ -66,6 +67,8 @@ public class AppointmentOption extends AppCompatActivity {
 
         progressDialog  = new ProgressDialog(this);
 
+        docId = getIntent().getStringExtra("DocId");
+
         offline = findViewById(R.id.offline);
         online = findViewById(R.id.online);
 
@@ -77,8 +80,7 @@ public class AppointmentOption extends AppCompatActivity {
         TextView name = findViewById(R.id.drname);
          docName = getIntent().getStringExtra("docname");
          docPhone = getIntent().getStringExtra("phone");
-         docId = getIntent().getStringExtra("docId");
-        name.setText(docName);
+         name.setText(docName);
 
         offline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,10 +96,7 @@ public class AppointmentOption extends AppCompatActivity {
             public void onClick(View v) {
        //       payUsingUpi("Nirogo", "9931959949@paytm", "Appoinment for " + docName, "1");
                 addToDB("online");
-                Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                intent.putExtra("docId", docId);
-                startActivity(intent);
-            }
+                     }
         });
 
     }
@@ -242,6 +241,7 @@ public class AppointmentOption extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UserUploadInfo userData = postSnapshot.getValue(UserUploadInfo.class);
                     String idCheck = userData.getId();
+                    String url = userData.getImageUrl();
 
                     String path_admin = "Admin/";
                     String path_user = "UserApt/" + mode + "/" + id + "/";
@@ -268,10 +268,12 @@ public class AppointmentOption extends AppCompatActivity {
 
                         dbrefUser.child(UUID.randomUUID().toString()).setValue(userAppoint);
 
+                        uploadToDocChat(name, url);
                         progressDialog.dismiss();
 
                         Toast.makeText(getApplicationContext(), "Visit My Appointments in Profile to View", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                        intent.putExtra("type", "user");
                         intent.putExtra("docId", docId);
                         intent.putExtra("userId", id);
                         startActivity(intent);
@@ -291,22 +293,13 @@ public class AppointmentOption extends AppCompatActivity {
 
     private void uploadToDocChat(final String name, final String url) {
 
-        String path_chat = "ChatDoc/" + docId;
-        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(path_chat);
+        String path_chat = "ChatDoc/" + docId + "/";
+        final DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference(path_chat);
         final String id = firebaseAuth.getCurrentUser().getUid();
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Doc doc = new Doc(id, name, url);
-                reference.child(id).setValue(doc);
-            }
+        Doc doc = new Doc(id, name, url);
+        reference2.child(id).setValue(doc);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public static boolean isConnectionAvailable(Context context) {
