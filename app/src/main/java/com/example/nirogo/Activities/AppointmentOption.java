@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nirogo.Adapters.Messages.Doc;
 import com.example.nirogo.AdminShow;
 import com.example.nirogo.ChatActivity;
 import com.example.nirogo.Doctor.DocUploadInfo;
@@ -51,6 +52,7 @@ public class AppointmentOption extends AppCompatActivity {
 
     DatabaseReference databaseReference_fetch;
     FirebaseAuth firebaseAuth;
+
 
     ProgressDialog progressDialog ;
 
@@ -287,13 +289,24 @@ public class AppointmentOption extends AppCompatActivity {
 
     }
 
-    private void uploadToUserDB() {
+    private void uploadToDocChat(final String name, final String url) {
 
+        String path_chat = "ChatDoc/" + docId;
+        final DatabaseReference reference = FirebaseDatabase.getInstance().getReference(path_chat);
+        final String id = firebaseAuth.getCurrentUser().getUid();
 
-    }
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Doc doc = new Doc(id, name, url);
+                reference.child(id).setValue(doc);
+            }
 
-    private void uploadToAdminDB() {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
     }
 
     public static boolean isConnectionAvailable(Context context) {

@@ -28,6 +28,7 @@ public class ChatActivity extends AppCompatActivity {
 
     ChatAdapter adapter;
     List<Doc> list;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,29 +41,53 @@ public class ChatActivity extends AppCompatActivity {
 
         firebaseAuth= FirebaseAuth.getInstance();
 
+        if (getIntent().hasExtra("type"))
+        type = getIntent().getStringExtra("type");
+
         if (getIntent().hasExtra("docId")){
             docId = getIntent().getStringExtra("docId");
             id = getIntent().getStringExtra("userId");
         }
 
-        String path_user = "DocChat/";
-        reference = FirebaseDatabase.getInstance().getReference(path_user);
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Doc doc = snapshot.getValue(Doc.class);
-                    list.add(doc);
+        if(type.equals("user")) {
+            String path_user = "DocChat/";
+            reference = FirebaseDatabase.getInstance().getReference(path_user);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Doc doc = snapshot.getValue(Doc.class);
+                        list.add(doc);
+                    }
+                    adapter = new ChatAdapter(list, getApplicationContext());
+                    recyclerView.setAdapter(adapter);
                 }
-            adapter = new ChatAdapter(list, getApplicationContext());
-                recyclerView.setAdapter(adapter);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
+        else if (type.equals("doctor")){
+            String path_user = "ChatDoc/" + firebaseAuth.getUid();
+            reference = FirebaseDatabase.getInstance().getReference(path_user);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Doc doc = snapshot.getValue(Doc.class);
+                        list.add(doc);
+                    }
+                    adapter = new ChatAdapter(list, getApplicationContext());
+                    recyclerView.setAdapter(adapter);
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 }
