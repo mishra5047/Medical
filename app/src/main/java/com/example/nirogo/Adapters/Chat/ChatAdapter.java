@@ -54,6 +54,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), MessageActivity.class);
                 intent.putExtra("docid", itemAdapter.getId());
+                intent.putExtra("docname", itemAdapter.getUsername());
+                intent.putExtra("url", itemAdapter.getImageUrl());
                 v.getContext().startActivity(intent);
 
             }

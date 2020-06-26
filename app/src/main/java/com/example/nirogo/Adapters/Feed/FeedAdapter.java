@@ -92,7 +92,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         TextView txtLike, numLikes;
         LinearLayout Commenticon;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             phone = itemView.findViewById(R.id.noDoc);
