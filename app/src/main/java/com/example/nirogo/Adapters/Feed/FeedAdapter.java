@@ -104,7 +104,6 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imgPost = itemView.findViewById(R.id.imagePost);
             DocId = itemView.findViewById(R.id.IdDoc);
             PostDBid = itemView.findViewById(R.id.postDBid);
-
             url = itemView.findViewById(R.id.urlImage);
 
             likelay = itemView.findViewById(R.id.likeLayout);
@@ -180,6 +179,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), CommentsActivity.class);
+                    intent.putExtra("POST ID",PostDBid.getText().toString());
                     v.getContext().startActivity(intent);
                 }
             });

@@ -4,6 +4,10 @@ public class commentItem {
     String username;
     String usercomment;
 
+    public commentItem(){
+
+    }
+
     public commentItem(String username,String usercomment)
     {
         this.username= username;

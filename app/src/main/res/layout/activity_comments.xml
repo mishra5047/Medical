@@ -27,7 +27,7 @@
         android:text="Comments"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="20dp"
-        android:textColor="@color/Black"
+        android:textColor="@color/blue_bg"
         android:textStyle="bold">
 
     </TextView>
@@ -73,17 +73,21 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/addNewComment"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:textSize="20sp"
-            android:hint="Add a comment"></EditText>
+            android:hint="Add a comment">
+
+        </EditText>
         <ImageView
+            android:id="@+id/sendcomment"
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:layout_marginVertical="7dp"
-            android:src="@drawable/send"
+            android:src="@drawable/ic_send"
             android:layout_marginLeft="20dp">
         </ImageView>
     </LinearLayout>
