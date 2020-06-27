@@ -92,7 +92,7 @@
                 android:textStyle="bold"
                 android:textSize="15sp"
                 android:layout_marginLeft="20dp"
-                android:id="@+id/forgotpwSupplier"
+                android:id="@+id/forgotpw"
                 android:textColor="#000"
                 android:layout_marginTop="5dp"
                 />
