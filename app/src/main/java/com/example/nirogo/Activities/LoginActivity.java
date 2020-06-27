@@ -126,8 +126,6 @@ public class LoginActivity extends Activity {
                     return;
                 }
 
-
-
                 if(PassWordText.isEmpty()) {
                     password.setError("Enter Password");
                     return;
@@ -140,7 +138,8 @@ public class LoginActivity extends Activity {
                 if (EmailText.equals("dev") && PassWordText.equals("dev")){
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 }
-                Toast.makeText(getApplicationContext(), "Signing In", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(getApplicationContext(), "Signing In", Toast.LENGTH_LONG).show();
                 setemailLogin(EmailText,PassWordText);
             }
         });

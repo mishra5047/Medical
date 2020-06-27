@@ -63,6 +63,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
                         android:text="Name"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/Black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -93,6 +94,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
                         android:text="Age"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/Black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -123,6 +125,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="20dp"
                         android:text="City"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/Black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -130,6 +133,7 @@
                     <EditText
                         android:id="@+id/cityDoc"
                         android:layout_width="250dp"
+                        android:fontFamily="@font/roboto_regular"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:background="@drawable/rounded_rectangle"
@@ -153,6 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="Speciality"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/Black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -182,6 +187,7 @@
                         android:layout_gravity="center_vertical"
                         android:paddingRight="35dp"
                         android:text="Phone"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/Black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -204,9 +210,10 @@
                     android:id="@+id/sumbitDoc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginHorizontal="100dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="40dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:background="@drawable/rounded_rectangle"
                     android:backgroundTint="#1a237e"
                     android:gravity="center"
