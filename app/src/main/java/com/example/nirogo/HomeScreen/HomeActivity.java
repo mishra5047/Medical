@@ -52,6 +52,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +77,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     String Database_Path = "Post/";
     EditText search;
     ImageView searchImg;
+    String Type;
 
     // @Override
 //    public void onBackPressed() {
@@ -103,7 +106,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             mEditor.putString("Type", getIntent().getStringExtra("type"));
             mEditor.commit();
         }
-        Log.i("TYPE SHARED",pref.getString("Type","NONE"));
+        Type=pref.getString("Type","NONE");
+        Log.i("TYPE SHARED",Type);
 
         scrollView=(ScrollView)findViewById(R.id.ScrollviewHome);
         bubbleToggleView=(BubbleToggleView) findViewById(R.id.c_item_menu);
@@ -134,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         View headerView= navigationView.getHeaderView(0);
         TextView userEmailHeader= (TextView)headerView.findViewById(R.id.nav_header_email);
         final ImageView propic=(ImageView)headerView.findViewById(R.id.image_nav_header);
-        final TextView DocnameNav=(TextView) headerView.findViewById(R.id.nav_header_name);
+        final TextView nameNav=(TextView) headerView.findViewById(R.id.nav_header_name);
         propic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,32 +173,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         //setting up user name and profile pic in nav drawer
-        DatabaseReference dbref2= FirebaseDatabase.getInstance().getReference("Doctor/"+mAuth.getCurrentUser().getUid()+"/imageURL/");
-        dbref2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String imageURL= dataSnapshot.getValue(String.class);
-                Picasso.get().load(imageURL).into(propic);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(getApplicationContext(),"unable to download userImage",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        DatabaseReference dbref3= FirebaseDatabase.getInstance().getReference("Doctor/"+mAuth.getCurrentUser().getUid()+"/name/");
-        dbref3.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name= dataSnapshot.getValue(String.class);
-                DocnameNav.setText(name);
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),"unable to set userName",Toast.LENGTH_SHORT).show();
-            }
-        });
+        setNavProfileandName(Type,propic,nameNav);
 
         //seting up refresh layout
         swipeRefreshLayout=(SwipeRefreshLayout) findViewById(R.id.RefreshHome);
@@ -272,6 +251,46 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    private void setNavProfileandName(String type, final ImageView propic, final TextView nameNav) {
+
+        DatabaseReference dbref2,dbref3;
+        if(type.equals("Doctor")){
+            dbref2= FirebaseDatabase.getInstance().getReference("Doctor/"+mAuth.getCurrentUser().getUid()+"/imageURL/");
+            dbref3= FirebaseDatabase.getInstance().getReference("Doctor/"+mAuth.getCurrentUser().getUid()+"/name/");
+        }
+        else{
+            dbref2= FirebaseDatabase.getInstance().getReference("User/"+mAuth.getCurrentUser().getUid()+"/imageUrl/");
+            dbref3= FirebaseDatabase.getInstance().getReference("User/"+mAuth.getCurrentUser().getUid()+"/name/");
+
+        }
+        dbref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String imageURL= dataSnapshot.getValue(String.class);
+                Log.i("User image url",imageURL);
+                Picasso.get().load(imageURL).into(propic);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(),"unable to download userImage",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        dbref3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String name= dataSnapshot.getValue(String.class);
+                nameNav.setText(name);
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(),"unable to set userName",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -335,8 +354,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     PostUploadInfo postUploadInfo = postSnapshot.getValue(PostUploadInfo.class);
                     list.add(postUploadInfo);
                 }
-                postAdapter = new FeedAdapter(list, getApplicationContext());
-                recyclerview.setAdapter(postAdapter);
+                    postAdapter = new FeedAdapter(list, getApplicationContext());
+                    recyclerview.setAdapter(postAdapter);
 
             }
 

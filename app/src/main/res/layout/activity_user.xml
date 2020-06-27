@@ -119,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="_____________OR____________"
+                android:visibility="invisible"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:layout_marginTop="20dp"
@@ -132,6 +133,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
+                android:visibility="invisible"
                 >
 
 

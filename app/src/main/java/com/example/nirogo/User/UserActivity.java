@@ -23,6 +23,7 @@ import com.example.nirogo.Activities.OptionActivity;
 import com.example.nirogo.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
@@ -157,7 +158,7 @@ public class UserActivity extends Activity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+         //Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...)
         if (requestCode == RC_SIGN_IN) {
 
 
