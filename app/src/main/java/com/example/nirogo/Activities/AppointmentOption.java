@@ -271,7 +271,7 @@ public class AppointmentOption extends AppCompatActivity {
                         uploadToDocChat(name, url);
                         progressDialog.dismiss();
 
-                        uploadToUserChat(name, url);
+                        uploadToUserChat(docName, url);
 
                         Toast.makeText(getApplicationContext(), "Your Appointment with " + docName + " has been booked, Visit Chat Section in Home to consult", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
