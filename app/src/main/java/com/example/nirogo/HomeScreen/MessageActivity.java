@@ -45,6 +45,7 @@ public class MessageActivity extends AppCompatActivity {
 
    MessageAdapter messageAdapter;
     List<ChatMessages> chat;
+    ImageButton askVideo;
 
     RecyclerView recyclerview;
 
@@ -70,7 +71,13 @@ public class MessageActivity extends AppCompatActivity {
     name = findViewById(R.id.docName);
     send = findViewById(R.id.sendBtn);
     message = findViewById(R.id.txt_send);
-
+    askVideo = findViewById(R.id.callBtn);
+    askVideo.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            message.setText("It'll be much better if you can share your issue on a video call, Provide your credentials");
+        }
+    });
     recyclerview = findViewById(R.id.recyclerview);
 
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());

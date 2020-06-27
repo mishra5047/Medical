@@ -244,7 +244,7 @@ public class AppointmentOption extends AppCompatActivity {
                     String url = userData.getImageUrl();
 
                     String path_admin = "Admin/";
-                    String path_user = "UserApt/" + mode + "/" + id + "/";
+                    String path_user = "UserApt/" + id + "/";
                     dbrefUser = FirebaseDatabase.getInstance().getReference(path_user);
                     dbrefAdmin = FirebaseDatabase.getInstance().getReference(path_admin);
 
@@ -259,24 +259,26 @@ public class AppointmentOption extends AppCompatActivity {
                         SimpleDateFormat sdf_1 = new SimpleDateFormat("dd-MM-YYYY", Locale.getDefault());
                         String date = sdf_1.format(new Date());
 
-                        AdminShow adminShow = new AdminShow(docName, docPhone, name, phone, date, time);
+                        AdminShow adminShow = new AdminShow(docName, docPhone, name, phone, date, time, mode);
 
                         dbrefAdmin.child(UUID.randomUUID().toString()).setValue(adminShow);
 
                         //user appointment
-                        MyAppointments userAppoint = new MyAppointments(docName, date, time);
+                        MyAppointments userAppoint = new MyAppointments(docName, date, time, mode);
 
                         dbrefUser.child(UUID.randomUUID().toString()).setValue(userAppoint);
 
                         uploadToDocChat(name, url);
                         progressDialog.dismiss();
 
-                        Toast.makeText(getApplicationContext(), "Visit My Appointments in Profile to View", Toast.LENGTH_SHORT).show();
+                        uploadToUserChat(name, url);
+
+                        Toast.makeText(getApplicationContext(), "Your Appointment with " + docName + " has been booked, Visit Chat Section in Home to consult", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                        intent.putExtra("type", "user");
-                        intent.putExtra("docId", docId);
-                        intent.putExtra("userId", id);
-                        startActivity(intent);
+//                        intent.putExtra("type", "user");
+//                        intent.putExtra("docId", docId);
+//                        intent.putExtra("userId", id);
+//                        startActivity(intent);
 
                     }
                 }
@@ -302,6 +304,14 @@ public class AppointmentOption extends AppCompatActivity {
 
     }
 
+    private void uploadToUserChat(final String name, final String url){
+        String path_chat = "UserChat/" + firebaseAuth.getCurrentUser().getUid() + "/";
+        final DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference(path_chat);
+        final String id = firebaseAuth.getCurrentUser().getUid();
+
+        Doc doc = new Doc(docId, name, url);
+        reference2.child(UUID.randomUUID().toString()).setValue(doc);
+    }
     public static boolean isConnectionAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {

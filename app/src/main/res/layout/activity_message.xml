@@ -14,8 +14,8 @@
         android:titleTextColor="@color/White"
         android:background="@color/blue_bg">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="40dp"
@@ -23,21 +23,31 @@
             android:id="@+id/imageDoc"/>
 
         <TextView
+            android:layout_toRightOf="@id/imageDoc"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/docName"
-            android:layout_gravity="center|center_vertical"
             android:text="Abhishek Mishra"
             android:textSize="20sp"
             android:textColor="@color/White"
             />
-        </LinearLayout>
+
+         <ImageButton
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:id="@+id/callBtn"
+             android:background="@drawable/ic_video_call"
+             android:layout_centerVertical="true"
+             android:layout_alignParentEnd="true"
+             android:layout_marginRight="20dp"/>
+        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/recyclerview"
-        android:background="@drawable/back"
+        android:background="@drawable/image_back"
         android:layout_below="@id/toolbar"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom"

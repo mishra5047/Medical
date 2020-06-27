@@ -26,7 +26,6 @@
         <activity android:name=".HomeScreen.MessageActivity" />
         <activity android:name=".Activities.AppointmentOption" />
         <activity android:name=".Profile.UpdateProfileDoc" />
-        <activity android:name=".Activities.SearchActivity" />
         <activity android:name=".Activities.CartActivity" />
         <activity android:name=".Activities.AmbulanceActivity" />
         <activity android:name=".Post.PostUploadActivity" />

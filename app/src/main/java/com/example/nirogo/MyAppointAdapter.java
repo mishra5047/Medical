@@ -1,4 +1,4 @@
-package com.example;
+package com.example.nirogo;
 
 
 import android.content.Context;
@@ -47,6 +47,8 @@ public class MyAppointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ((ViewHolder) holder).nameDoc.setText(itemAdapter.getDrName());
         ((ViewHolder) holder).date.setText(itemAdapter.getDate());
         ((ViewHolder) holder).time.setText(itemAdapter.getTime());
+        ((ViewHolder) holder).mode.setText(itemAdapter.getMode());
+
     }
 
     @Override
@@ -56,7 +58,7 @@ public class MyAppointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nameDoc, date, time;
+        TextView nameDoc, date, time, mode;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -64,7 +66,7 @@ public class MyAppointAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             nameDoc = itemView.findViewById(R.id.nameDoc);
             date = itemView.findViewById(R.id.date);
             time = itemView.findViewById(R.id.time);
-
+            mode = itemView.findViewById(R.id.txtMode);
         }
     }
 }

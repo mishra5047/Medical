@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,9 +41,10 @@ public class CommentsActivity extends AppCompatActivity {
     private commentAdapter cAdaptor;
     RecyclerView recyclerView;
     private EditText editText;
-    private ImageView send, back;
+    private ImageView send;
     private FirebaseAuth mAuth;
     Intent intent;
+    Button back;
     String PostId;
     DatabaseReference dbref;
     String name;
@@ -57,7 +59,7 @@ public class CommentsActivity extends AppCompatActivity {
         list = new ArrayList<>();
         editText = (EditText) findViewById(R.id.addNewComment);
         send = (ImageView) findViewById(R.id.sendcomment);
-        back= (ImageView) findViewById(R.id.backBtn);
+        back= (Button) findViewById(R.id.backBtn);
         recyclerView = findViewById(R.id.recyclercomments);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mAuth= FirebaseAuth.getInstance();
