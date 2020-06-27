@@ -51,6 +51,7 @@ public class AdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ((ViewHolder) holder).nameUser.setText(itemAdapter.getDocName());
         ((ViewHolder) holder).nameDoc.setText(itemAdapter.getUserName());
         ((ViewHolder) holder).date.setText(itemAdapter.getDateApt());
+        ((ViewHolder) holder).mode.setText(itemAdapter.getMode());
         ((ViewHolder) holder).time.setText(itemAdapter.getTimeApt());
         ((ViewHolder) holder).noDoc.setText(itemAdapter.getPhoneDoc());
         ((ViewHolder) holder).noUser.setText(itemAdapter.getPhoneUser());
@@ -64,7 +65,7 @@ public class AdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameUser, nameDoc, date, time;
-        TextView noDoc, noUser;
+        TextView noDoc, noUser, mode;
         ImageView doc, user;
 
         public ViewHolder(View itemView) {
@@ -76,7 +77,7 @@ public class AdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             time = itemView.findViewById(R.id.time);
             noDoc = itemView.findViewById(R.id.noDoc);
             noUser = itemView.findViewById(R.id.noUser);
-
+            mode = itemView.findViewById(R.id.txtMode);
             doc = itemView.findViewById(R.id.callDoc);
             doc.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -5,13 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.MyAppointAdapter;
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.nirogo.ChatActivity;
+import com.example.nirogo.HomeScreen.HomeActivity;
+import com.example.nirogo.MyAppointAdapter;
 import com.example.nirogo.MyAppointments;
-import com.example.nirogo.NearbyDoctors.AppointmentAdapter;
-import com.example.nirogo.NearbyDoctors.UploadInfo;
+import com.example.nirogo.Profile.UserProfile;
 import com.example.nirogo.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +43,17 @@ public class showUserAppointments extends AppCompatActivity {
         setContentView(R.layout.activity_show_user_appointments);
         mAth = FirebaseAuth.getInstance();
         userID = mAth.getCurrentUser().getUid();
+
+        Button back = findViewById(R.id.backBtn);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getApplicationContext(), UserProfile.class);
+                intent.putExtra("type",getIntent().getStringExtra("type"));
+                startActivity(intent);
+                Animatoo.animateFade(getApplicationContext());
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.user_appointmentlist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

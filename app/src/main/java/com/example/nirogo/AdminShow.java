@@ -3,17 +3,27 @@ package com.example.nirogo;
 public class AdminShow {
 
     String docName, userName, dateApt, timeApt, phoneUser, phoneDoc;
+    String mode;
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
 
     public AdminShow() {
     }
 
-    public AdminShow(String docName, String docNo, String userName, String phoneUser, String dateApt, String timeApt) {
+    public AdminShow(String docName, String docNo, String userName, String phoneUser, String dateApt, String timeApt, String mode) {
         this.docName = docName;
         this.userName = userName;
         this.dateApt = dateApt;
         this.timeApt = timeApt;
         this.phoneUser = phoneUser;
         this.phoneDoc = docNo;
+        this.mode = mode;
     }
 
     public String getPhoneDoc() {

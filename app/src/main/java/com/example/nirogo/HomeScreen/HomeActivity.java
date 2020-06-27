@@ -286,7 +286,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                         intent.putExtra("type",getIntent().getStringExtra("type"));
                                         startActivity(intent);
                                         return true;
-            case R.id.nav_item_four : if(getIntent().getStringExtra("type").equals("Doctor")) {
+            case R.id.nav_item_four :
+                    if(getIntent().getStringExtra("type").equals("Doctor")) {
                                         Log.i("TYPE","DOctor");
                                         intent = new Intent(HomeActivity.this, DocProfile.class);
                                         intent.putExtra("type", getIntent().getStringExtra("type"));
@@ -301,7 +302,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_item_five :   new AlertDialog.Builder(this)
                                         .setIcon(R.drawable.alert)
                                         .setTitle("Are you sure")
-                                        .setMessage("do you want to Sign Out?")
+                                        .setMessage("Want To Sign Out?")
                                         .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
 
                                             @Override

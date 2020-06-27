@@ -2,16 +2,25 @@ package com.example.nirogo;
 
 public class MyAppointments {
 
-    String drName, Date, Time;
+    String drName, Date, Time, mode;
 
     public MyAppointments() {
     }
 
-    public MyAppointments(String drName, String date, String time) {
+    public MyAppointments(String drName, String date, String time, String mode) {
         this.drName = drName;
         Date = date;
         Time = time;
+        this.mode = mode;
 
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     public String getDrName() {

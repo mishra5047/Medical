@@ -1,6 +1,10 @@
 package com.example.nirogo;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -9,8 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.example.nirogo.Activities.AmbulanceActivity;
 import com.example.nirogo.Adapters.Chat.ChatAdapter;
 import com.example.nirogo.Adapters.Messages.Doc;
+import com.example.nirogo.HomeScreen.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +34,6 @@ public class ChatActivity extends AppCompatActivity {
     DatabaseReference reference, reference2;
     String docId, id;
     RecyclerView recyclerView;
-    SwipeRefreshLayout swipeRefreshLayout;
 
     ChatAdapter adapter;
     List<Doc> list;
@@ -39,11 +45,23 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         list = new ArrayList<>();
-        recyclerView = findViewById(R.id.messagesRecycler);
+        recyclerView = findViewById(R.id.messageActRec);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         firebaseAuth= FirebaseAuth.getInstance();
 
+        Button back = findViewById(R.id.backBtn);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(ChatActivity.this, HomeActivity.class);
+                intent.putExtra("type",getIntent().getStringExtra("type"));
+                startActivity(intent);
+                Animatoo.animateFade(ChatActivity.this);
+            }
+        });
+
+        TextView txtInto = findViewById(R.id.textIntro);
         type = getIntent().getStringExtra("type");
 
 
@@ -51,16 +69,17 @@ public class ChatActivity extends AppCompatActivity {
             docId = getIntent().getStringExtra("docId");
             id = getIntent().getStringExtra("userId");
         }
-        if (getIntent().hasExtra("type") && (getIntent().hasExtra("docId"))) {
+        if (getIntent().hasExtra("type")) {
             if (getIntent().getStringExtra("type").equalsIgnoreCase("User")) {
-                String path_user = "DocChat/";
+
+                txtInto.setText("Your Appointments");
+                String path_user = "UserChat/" + firebaseAuth.getCurrentUser().getUid() + "/";
                 reference = FirebaseDatabase.getInstance().getReference(path_user);
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             Doc doc = snapshot.getValue(Doc.class);
-                            if (docId.equalsIgnoreCase(doc.getId()))
                             list.add(doc);
                         }
                         adapter = new ChatAdapter(list, getApplicationContext());
@@ -72,7 +91,9 @@ public class ChatActivity extends AppCompatActivity {
 
                     }
                 });
-            } else if (type.equalsIgnoreCase("doctor")&&(getIntent().hasExtra("docId"))) {
+            } else if (type.equalsIgnoreCase("doctor")) {
+
+                txtInto.setText("The List Of Users That Have Booked Appointment with You");
                 String path_user_new = "ChatDoc/" + firebaseAuth.getCurrentUser().getUid().toString() + "/";
                 reference2 = FirebaseDatabase.getInstance().getReference(path_user_new);
                 reference2.addValueEventListener(new ValueEventListener() {
