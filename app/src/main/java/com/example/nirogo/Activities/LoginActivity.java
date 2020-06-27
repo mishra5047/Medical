@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -80,12 +81,13 @@ public class LoginActivity extends Activity {
 
         ScreenSize screenSize = new ScreenSize();
         String size = screenSize.screenCheck(LoginActivity.this);
-        if (size.equalsIgnoreCase("Small")) {
-            setContentView(R.layout.activity_login_small);
-            Log.i("Screen Return Value","Small");
-        }
-        else
-            setContentView(R.layout.activity_login);
+//        if (size.equalsIgnoreCase("Small")) {
+//            setContentView(R.layout.activity_login_small);
+//            Log.i("Screen Return Value","Small");
+//        }
+//        else
+       setContentView(R.layout.activity_login_small);
+
 
         Button back = findViewById(R.id.Loginback);
         back.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +99,8 @@ public class LoginActivity extends Activity {
             }
         });
 
-
+//
+//        hideKeyboard(LoginActivity.this);
         mAuth = FirebaseAuth.getInstance();
         email= findViewById(R.id.loginEmail);
         password= findViewById(R.id.loginpassword);
@@ -137,7 +140,7 @@ public class LoginActivity extends Activity {
                 if (EmailText.equals("dev") && PassWordText.equals("dev")){
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 }
-
+                Toast.makeText(getApplicationContext(), "Signing In", Toast.LENGTH_SHORT).show();
                 setemailLogin(EmailText,PassWordText);
             }
         });
@@ -355,5 +358,16 @@ public class LoginActivity extends Activity {
     }
 
 }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }
 

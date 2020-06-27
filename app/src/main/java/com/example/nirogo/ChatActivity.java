@@ -91,7 +91,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     }
                 });
-            } else if (type.equalsIgnoreCase("doctor")&&(getIntent().hasExtra("docId"))) {
+            } else if (type.equalsIgnoreCase("doctor")) {
 
                 txtInto.setText("The List Of Users That Have Booked Appointment with You");
                 String path_user_new = "ChatDoc/" + firebaseAuth.getCurrentUser().getUid().toString() + "/";
