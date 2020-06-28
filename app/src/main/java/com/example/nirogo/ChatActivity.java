@@ -11,10 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.nirogo.Activities.AmbulanceActivity;
 import com.example.nirogo.Adapters.Chat.ChatAdapter;
 import com.example.nirogo.Adapters.Messages.Doc;
 import com.example.nirogo.HomeScreen.HomeActivity;

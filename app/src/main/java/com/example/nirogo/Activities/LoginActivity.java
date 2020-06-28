@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.nirogo.AdminActivity;
 import com.example.nirogo.Doctor.DetailsDoctor;
 import com.example.nirogo.Doctor.DoctorActivity;
+import com.example.nirogo.FacebookLogin;
 import com.example.nirogo.ForgotPassword;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.R;
@@ -26,6 +27,11 @@ import com.example.nirogo.ScreenSize;
 import com.example.nirogo.Supplier.SupplierActivity;
 import com.example.nirogo.User.DetailsUser;
 import com.example.nirogo.User.UserActivity;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -59,11 +65,10 @@ public class LoginActivity extends Activity {
     private Intent intent;
     private String Type;
     private GoogleSignInClient mGoogleSignInClient;
-    private  TextView forgotPassword;
+    private TextView forgotPassword;
     SharedPreferences sharedPreferences;
-
-
-
+    private static final String TAG = "FacebookAuth";
+    CallbackManager mCallbackManager;
 
     @Override
     public void onStart() {
@@ -101,16 +106,14 @@ public class LoginActivity extends Activity {
             }
         });
 
-
-//
-//        hideKeyboard(LoginActivity.this);
-        mAuth = FirebaseAuth.getInstance();
+       mAuth = FirebaseAuth.getInstance();
         email= findViewById(R.id.loginEmail);
         password= findViewById(R.id.loginpassword);
         forgotPassword=(TextView)findViewById(R.id.forgotpw) ;
         intent= getIntent();
         Type= intent.getStringExtra("type");
 
+        facebookLogin = findViewById(R.id.fbDemo);
         googleLogin = findViewById(R.id.logingoogle);
         signin= findViewById(R.id.Signinbutton);
         signupfromlogin= findViewById(R.id.signupfromlogin);
@@ -125,6 +128,18 @@ public class LoginActivity extends Activity {
         });
 
         creategooglerequest();
+
+        //facebook
+        facebookLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Using Facebook", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(LoginActivity.this, FacebookLogin.class);
+                intent.putExtra("type", Type);
+                startActivity(intent);
+            }
+        });
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,13 +254,10 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
         super.onActivityResult(requestCode, resultCode, data);
-
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-
 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {

@@ -86,7 +86,6 @@ public class DoctorActivity extends Activity {
         });
 
 
-        googleimage = findViewById(R.id.googleDoc);
         signup = findViewById(R.id.signupDoctor);
         email = findViewById(R.id.usernameDoc);
         password = findViewById(R.id.passwordDoc);

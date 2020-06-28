@@ -90,7 +90,6 @@ public class UserActivity extends Activity {
         });
 
         mAuth= FirebaseAuth.getInstance();
-        googleimage = findViewById(R.id.googlePat);
         signup= findViewById(R.id.signupUser);
         email= findViewById(R.id.EmailPatient);
         password= findViewById(R.id.passwordPatient);
@@ -123,12 +122,6 @@ public class UserActivity extends Activity {
             }});
 
         //setting up onclick Listener for googlesignup
-        googleimage.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                signIn();   //calling method to send intent to google client
-            }
-        });
     }
 
 

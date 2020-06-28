@@ -131,19 +131,19 @@
                 />
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 >
-
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
                     android:layout_marginRight="20dp"
+                    android:layout_marginLeft="130dp"
                     android:layout_gravity="start"
                     android:src="@drawable/google"
                     android:id="@+id/logingoogle">
@@ -151,15 +151,25 @@
                 </ImageView>
 
                 <ImageView
+                    android:id="@+id/fbDemo"
                     android:layout_width="50dp"
+                    android:layout_toRightOf="@id/logingoogle"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_gravity="start"
-                    android:src="@drawable/facebook"
-                    android:id="@+id/loginfacebook">
+                    android:src="@drawable/facebook">
 
                 </ImageView>
-            </LinearLayout>
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/loginFb"
+                    android:layout_width="40dp"
+                    android:visibility="invisible"
+                    android:layout_marginLeft="30dp"
+                    android:layout_toRightOf="@id/logingoogle"
+                    android:layout_height="50dp"/>
+
+            </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_gravity="center|center_horizontal"
