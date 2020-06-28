@@ -21,6 +21,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -32,6 +34,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FacebookLogin extends AppCompatActivity {
 
@@ -88,13 +93,28 @@ public class FacebookLogin extends AppCompatActivity {
             FacebookSdk.sdkInitialize(getApplicationContext());
             callbackManager = CallbackManager.Factory.create();
             loginButton = (LoginButton) findViewById(R.id.login_button);
-
-
+            loginButton.setReadPermissions("email");
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
                     Picasso.get().load("http://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=square").into(image);
-                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    handleFacebookAccessToken(loginResult.getAccessToken());
+
+                    GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response) {
+                            try {
+                                Toast.makeText(getApplicationContext(), object.getString("email"), Toast.LENGTH_LONG).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+
                 }
 
                 @Override
