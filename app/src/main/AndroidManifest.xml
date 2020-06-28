@@ -16,40 +16,51 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".HomeScreen.CommentsActivity"></activity>
+        <activity android:name=".ForgotPassword"></activity>
+        <activity android:name=".HomeScreen.CommentsActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".User.UpdateProfileUser" />
         <activity android:name=".ImageOpener" />
         <activity android:name=".User.showUserAppointments" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".HomeScreen.Navdrawer" />
-        <activity android:name=".HomeScreen.MessageActivity"
+        <activity
+            android:name=".HomeScreen.MessageActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Activities.AppointmentOption"
+        <activity
+            android:name=".Activities.AppointmentOption"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Profile.UpdateProfileDoc"
+        <activity
+            android:name=".Profile.UpdateProfileDoc"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Activities.CartActivity" />
         <activity android:name=".Activities.AmbulanceActivity" />
-        <activity android:name=".Post.PostUploadActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".Post.PostUploadActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Activities.AppointmentsActivity" />
         <activity android:name=".HomeScreen.MessagePreview" />
         <activity android:name=".Supplier.DetailsSupplier" />
-        <activity android:name=".User.DetailsUser"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".Doctor.DetailsDoctor"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".Profile.DoctorProfileViewOnly" />
-        <activity android:name=".Activities.LoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".HomeScreen.HomeActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".Supplier.SupplierActivity" />
-        <activity android:name=".User.UserActivity"
+        <activity
+            android:name=".User.DetailsUser"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".Doctor.DoctorActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".Doctor.DetailsDoctor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Profile.DoctorProfileViewOnly" />
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".HomeScreen.HomeActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".Supplier.SupplierActivity" />
+        <activity
+            android:name=".User.UserActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".Doctor.DoctorActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".Activities.OptionActivity" />
         <activity android:name=".Profile.UserProfile" />
         <activity android:name=".Profile.DocProfile" />

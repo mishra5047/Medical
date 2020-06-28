@@ -93,17 +93,7 @@
                 android:id="@+id/passwordPatient">
             </EditText>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Forgot password?"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:layout_marginLeft="20dp"
-                android:id="@+id/forgotpwSupplier"
-                android:textColor="#000"
-                android:layout_marginTop="5dp"
-                />
+
 
 
             <TextView

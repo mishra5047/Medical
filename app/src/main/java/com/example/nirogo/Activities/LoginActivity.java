@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.nirogo.AdminActivity;
 import com.example.nirogo.Doctor.DetailsDoctor;
 import com.example.nirogo.Doctor.DoctorActivity;
+import com.example.nirogo.ForgotPassword;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.R;
 import com.example.nirogo.ScreenSize;
@@ -58,6 +59,7 @@ public class LoginActivity extends Activity {
     private Intent intent;
     private String Type;
     private GoogleSignInClient mGoogleSignInClient;
+    private  TextView forgotPassword;
     SharedPreferences sharedPreferences;
 
 
@@ -99,17 +101,28 @@ public class LoginActivity extends Activity {
             }
         });
 
+
 //
 //        hideKeyboard(LoginActivity.this);
         mAuth = FirebaseAuth.getInstance();
         email= findViewById(R.id.loginEmail);
         password= findViewById(R.id.loginpassword);
+        forgotPassword=(TextView)findViewById(R.id.forgotpw) ;
         intent= getIntent();
         Type= intent.getStringExtra("type");
 
         googleLogin = findViewById(R.id.logingoogle);
         signin= findViewById(R.id.Signinbutton);
         signupfromlogin= findViewById(R.id.signupfromlogin);
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i= new Intent(LoginActivity.this, ForgotPassword.class);
+                i.putExtra("type",getIntent().getStringExtra("type"));
+                startActivity(i);
+            }
+        });
 
         creategooglerequest();
 
