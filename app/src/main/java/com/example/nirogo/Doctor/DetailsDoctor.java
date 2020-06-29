@@ -74,12 +74,12 @@ public class DetailsDoctor extends Activity {
         String size = size_check.screenCheck(DetailsDoctor.this);
 
         mAuth = FirebaseAuth.getInstance();
-
-        if ((size).equalsIgnoreCase("Small")) {
-            setContentView(R.layout.activity_details_doctor_small);
-            Log.i("Screen Return Value","Small");
-        }
-        else
+//
+//        if ((size).equalsIgnoreCase("Small")) {
+//            setContentView(R.layout.activity_details_doctor_small);
+//            Log.i("Screen Return Value","Small");
+//        }
+//        else
             setContentView(R.layout.activity_details_doctor);
 
          i= getIntent();

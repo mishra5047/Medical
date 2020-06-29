@@ -22,12 +22,14 @@
     <ImageView
         android:id="@+id/imageDisp"
         android:layout_width="120dp"
-        android:layout_marginTop="25dp"
+        android:layout_above="@id/scroll"
+        android:layout_marginBottom="30dp"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/user_white"/>
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -66,12 +66,12 @@ public class DoctorActivity extends Activity {
 
         ScreenSize screenSize = new ScreenSize();
         String size = screenSize.screenCheck(DoctorActivity.this);
-
-        if (size.equalsIgnoreCase("Small")) {
-            setContentView(R.layout.activity_doctor_small);
-            Log.i("Screen Return Value","Small");
-        }
-        else
+//
+//        if (size.equalsIgnoreCase("Small")) {
+//            setContentView(R.layout.activity_doctor_small);
+//            Log.i("Screen Return Value","Small");
+//        }
+//        else
             setContentView(R.layout.activity_doctor);
 
         mAuth = FirebaseAuth.getInstance();
@@ -90,18 +90,6 @@ public class DoctorActivity extends Activity {
         email = findViewById(R.id.usernameDoc);
         password = findViewById(R.id.passwordDoc);
 
-        //setting up google request
-        creategooglerequest();
-
-
-        //setting up onclick Listener
-        googleimage.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                signIn();   //calling method to send intent to google client
-            }
-        });
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -73,12 +73,12 @@ public class UserActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if ((MainActivity.size).equalsIgnoreCase("Small")) {
-            setContentView(R.layout.activity_user_small);
-            Log.i("Screen Return Value","Small");
-        }
-        else
-            setContentView(R.layout.activity_user);
+//        if ((MainActivity.size).equalsIgnoreCase("Small")) {
+//            setContentView(R.layout.activity_user_small);
+//            Log.i("Screen Return Value","Small");
+//        }
+//        else
+          setContentView(R.layout.activity_user);
 
         Button back = findViewById(R.id.backUser);
         back.setOnClickListener(new View.OnClickListener() {

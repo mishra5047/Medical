@@ -57,6 +57,7 @@ public class UpdateProfileUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile_user);
 
+        Toast.makeText(getApplicationContext(), "Click On The Image To Update It", Toast.LENGTH_SHORT).show();
         storageReference = FirebaseStorage.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
 
