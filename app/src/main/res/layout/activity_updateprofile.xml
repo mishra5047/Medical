@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
-                android:hint="Date of birth"
+                android:hint="Age"
                 android:maxLines="1"
                 android:textColorHint="@color/DarkRed"
 
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:hint="Speciality"
-                android:maxLines="8"
+                android:maxLines="2"
                 android:textColorHint="@color/DarkRed"
                 />
 
@@ -136,7 +136,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
-                android:hint="Phone no."
+                android:hint="City"
+                android:maxLines="1"
                 android:textColorHint="@color/DarkRed"></EditText>
 
             <TextView
@@ -156,6 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:hint="Phone no."
+                android:maxLines="1"
                 android:textColorHint="@color/DarkRed"></EditText>
 
 

@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     String Database_Path = "Post/";
     EditText search;
     ImageView searchImg;
+    TextView EmptyView;
     String Type;
 
      @Override
@@ -108,6 +109,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Log.i("Screen Return Value", "Small");
         } else
             setContentView(R.layout.activity_home);
+
+
 
         SharedPreferences pref= getSharedPreferences("UserType",0);
         SharedPreferences.Editor mEditor= pref.edit();
@@ -364,6 +367,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     PostUploadInfo postUploadInfo = postSnapshot.getValue(PostUploadInfo.class);
                     list.add(postUploadInfo);
                 }
+
                     postAdapter = new FeedAdapter(list, getApplicationContext());
                     recyclerview.setAdapter(postAdapter);
 
@@ -419,4 +423,3 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(HomeActivity.this,OptionActivity.class));
     }
 }
-
