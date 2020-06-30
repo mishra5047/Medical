@@ -55,6 +55,7 @@
                 android:layout_marginTop="5dp"
                 android:textColorHint="@color/Black"
                 android:hint="  Enter  email"
+                android:maxLines="1"
                 android:paddingLeft="8dp"
                 android:textColorHighlight="#000"
                 android:background="@drawable/rounded_rectangle"
@@ -80,6 +81,7 @@
                 android:paddingLeft="8dp"
                 android:hint="  Enter password"
                 android:inputType="textPassword"
+                android:maxLines="1"
                 android:textColorHint="@color/Black"
                 android:background="@drawable/rounded_rectangle"
                 android:id="@+id/loginpassword">

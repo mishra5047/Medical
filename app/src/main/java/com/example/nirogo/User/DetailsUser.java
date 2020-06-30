@@ -184,7 +184,7 @@ public class DetailsUser extends Activity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String down = uri.toString();
-                                    Toast.makeText(getApplicationContext(), down, Toast.LENGTH_LONG).show();
+                                  //  Toast.makeText(getApplicationContext(), down, Toast.LENGTH_LONG).show();
                                     String uniqueId = UUID.randomUUID().toString();
 
                                     String id = firebaseAuth.getCurrentUser().getUid();
