@@ -79,13 +79,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     ImageView searchImg;
     String Type;
 
-    // @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent(HomeActivity.this, OptionActivity.class);
-//        signOut();
-//        startActivity(intent);
-//    }
+     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+         new AlertDialog.Builder(this)
+                 .setIcon(R.drawable.alert)
+                 .setTitle("Are you sure")
+                 .setMessage("Want To Sign Out?")
+                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         signOut(); return ;
+                     }
+                 }).setNegativeButton("No",null)
+                 .show();
+
+     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -341,7 +351,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         recyclerview = findViewById(R.id.recyclerView);
 
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
-
+        recyclerview.setNestedScrollingEnabled(true);
         databaseReference = FirebaseDatabase.getInstance().getReference(Database_Path);
 
         databaseReference.addValueEventListener(new ValueEventListener() {

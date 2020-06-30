@@ -18,7 +18,16 @@
         android:id="@+id/backUser"
         />
 
-        <LinearLayout
+    <ImageView
+        android:id="@+id/doctor"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rsz_logo_new"/>
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
@@ -91,63 +100,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sign up"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginHorizontal="100dp"
                 android:textAlignment="gravity"
                 android:gravity="center"
                 android:layout_marginTop="30dp"
                 android:textSize="30sp"
                 android:background="@drawable/rounded_rectangle"
-                android:backgroundTint="#1a237e"
+                android:backgroundTint="@color/blue_bg"
                 android:textColor="#FFF"
+                android:layout_marginBottom="30dp"
                 android:id="@+id/signupUser"
                 >
 
             </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="_____________OR____________"
-                android:visibility="invisible"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:layout_marginTop="20dp"
-                android:textColor="#000">
-            </TextView>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:visibility="invisible"
-                >
-
-
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_gravity="start"
-                    android:src="@drawable/google"
-                    android:id="@+id/googlePat">
-
-                </ImageView>
-
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_gravity="start"
-                    android:src="@drawable/facebook"
-                    android:layout_marginBottom="30dp"
-                    android:id="@+id/facebookPat">
-
-                </ImageView>
             </LinearLayout>
-        </LinearLayout>
 
 </RelativeLayout>
 

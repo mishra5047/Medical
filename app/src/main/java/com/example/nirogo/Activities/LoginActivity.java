@@ -5,8 +5,12 @@ import androidx.annotation.NonNull;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -19,6 +23,7 @@ import android.widget.Toast;
 import com.example.nirogo.AdminActivity;
 import com.example.nirogo.Doctor.DetailsDoctor;
 import com.example.nirogo.Doctor.DoctorActivity;
+import com.example.nirogo.FacebookLogin;
 import com.example.nirogo.ForgotPassword;
 import com.example.nirogo.HomeScreen.HomeActivity;
 import com.example.nirogo.R;
@@ -26,6 +31,11 @@ import com.example.nirogo.ScreenSize;
 import com.example.nirogo.Supplier.SupplierActivity;
 import com.example.nirogo.User.DetailsUser;
 import com.example.nirogo.User.UserActivity;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -44,6 +54,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends Activity {
@@ -59,11 +72,10 @@ public class LoginActivity extends Activity {
     private Intent intent;
     private String Type;
     private GoogleSignInClient mGoogleSignInClient;
-    private  TextView forgotPassword;
+    private TextView forgotPassword;
     SharedPreferences sharedPreferences;
-
-
-
+    private static final String TAG = "FacebookAuth";
+    CallbackManager mCallbackManager;
 
     @Override
     public void onStart() {
@@ -90,6 +102,7 @@ public class LoginActivity extends Activity {
 //        else
        setContentView(R.layout.activity_login_small);
 
+       Log.d("the key is =", printKeyHash(LoginActivity.this));       ;
 
         Button back = findViewById(R.id.Loginback);
         back.setOnClickListener(new View.OnClickListener() {
@@ -101,16 +114,14 @@ public class LoginActivity extends Activity {
             }
         });
 
-
-//
-//        hideKeyboard(LoginActivity.this);
-        mAuth = FirebaseAuth.getInstance();
+       mAuth = FirebaseAuth.getInstance();
         email= findViewById(R.id.loginEmail);
         password= findViewById(R.id.loginpassword);
         forgotPassword=(TextView)findViewById(R.id.forgotpw) ;
         intent= getIntent();
         Type= intent.getStringExtra("type");
 
+        facebookLogin = findViewById(R.id.fbDemo);
         googleLogin = findViewById(R.id.logingoogle);
         signin= findViewById(R.id.Signinbutton);
         signupfromlogin= findViewById(R.id.signupfromlogin);
@@ -125,6 +136,18 @@ public class LoginActivity extends Activity {
         });
 
         creategooglerequest();
+
+        //facebook
+        facebookLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Using Facebook", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(LoginActivity.this, FacebookLogin.class);
+                intent.putExtra("type", Type);
+                startActivity(intent);
+            }
+        });
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,13 +262,10 @@ public class LoginActivity extends Activity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
         super.onActivityResult(requestCode, resultCode, data);
-
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-
 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -371,15 +391,37 @@ public class LoginActivity extends Activity {
 
 }
 
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
+    public static String printKeyHash(Activity context) {
+        PackageInfo packageInfo;
+        String key = null;
+        try {
+            //getting application package name, as defined in manifest
+            String packageName = context.getApplicationContext().getPackageName();
+
+            //Retriving package info
+            packageInfo = context.getPackageManager().getPackageInfo(packageName,
+                    PackageManager.GET_SIGNATURES);
+
+            Log.e("Package Name=", context.getApplicationContext().getPackageName());
+
+            for (Signature signature : packageInfo.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                key = new String(Base64.encode(md.digest(), 0));
+
+                // String key = new String(Base64.encodeBytes(md.digest()));
+                Log.e("Key Hash for this app", key);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("Name not found", e1.toString());
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        catch (NoSuchAlgorithmException e) {
+            Log.e("No such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+        }
+
+        return key;
     }
 }
 

@@ -73,12 +73,12 @@ public class UserActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if ((MainActivity.size).equalsIgnoreCase("Small")) {
-            setContentView(R.layout.activity_user_small);
-            Log.i("Screen Return Value","Small");
-        }
-        else
-            setContentView(R.layout.activity_user);
+//        if ((MainActivity.size).equalsIgnoreCase("Small")) {
+//            setContentView(R.layout.activity_user_small);
+//            Log.i("Screen Return Value","Small");
+//        }
+//        else
+          setContentView(R.layout.activity_user);
 
         Button back = findViewById(R.id.backUser);
         back.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +90,6 @@ public class UserActivity extends Activity {
         });
 
         mAuth= FirebaseAuth.getInstance();
-        googleimage = findViewById(R.id.googlePat);
         signup= findViewById(R.id.signupUser);
         email= findViewById(R.id.EmailPatient);
         password= findViewById(R.id.passwordPatient);
@@ -123,12 +122,6 @@ public class UserActivity extends Activity {
             }});
 
         //setting up onclick Listener for googlesignup
-        googleimage.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                signIn();   //calling method to send intent to google client
-            }
-        });
     }
 
 
