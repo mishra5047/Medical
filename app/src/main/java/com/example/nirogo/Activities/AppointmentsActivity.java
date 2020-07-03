@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class AppointmentsActivity extends Activity {
     String Database_Path = "DocNearby/";
     EditText cityEnter;
     ImageView searchCity;
+    ImageButton location;
 
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
     private FusedLocationProviderClient fusedLocationClient;
@@ -88,18 +90,18 @@ public class AppointmentsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 final String city = cityEnter.getText().toString();
-                if (city.isEmpty()){
-                    fetchLocation();
-                }
-                else {
                     list.clear();
                     fetchFromDB(city);
-                }
-
             }
         });
 
-
+        location = findViewById(R.id.location);
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchLocation();
+            }
+        });
         Button back = findViewById(R.id.backBtn);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,7 +233,6 @@ public class AppointmentsActivity extends Activity {
                                 lattitude = location.getLatitude();
                                 longitude = location.getLongitude();
 
-
                                 Toast.makeText(getApplicationContext(), lattitude.toString() + longitude.toString(), Toast.LENGTH_LONG).show();
 
                                 Geocoder geocoder;
@@ -246,7 +247,10 @@ public class AppointmentsActivity extends Activity {
                                 if (addresses != null) {
 
                                     city_user = addresses.get(0).getLocality();
-                                    Toast.makeText(getApplicationContext(), city_user, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Your City Is " + city_user.trim(), Toast.LENGTH_LONG).show();
+                                    list.clear();
+                                    fetchFromDB(city_user);
+
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Not Detected", Toast.LENGTH_LONG).show();
                                 }

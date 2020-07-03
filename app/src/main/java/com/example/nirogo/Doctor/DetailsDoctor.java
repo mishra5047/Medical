@@ -155,6 +155,7 @@ public class DetailsDoctor extends Activity {
 
 
                 else {
+
                     UploadImageFileToFirebaseStorage();
                 }
             }
@@ -226,6 +227,8 @@ public class DetailsDoctor extends Activity {
                             city = cityIn.getText().toString();
                             phone=PhoneIn.getText().toString();
 
+                            if (city.equalsIgnoreCase("New Delhi"))
+                                city = "Delhi";
                             // Hiding the progressDialog after done uploading.
                             progressDialog.dismiss();
 
